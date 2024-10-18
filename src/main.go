@@ -1,21 +1,17 @@
 package main
 
 import (
-	middleware "./api/middlewares"
-	"./infrastructure/database"
-	"./src/api"
-	"os"
-
+	"const/application/api"
+	"const/infrastructure/database"
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 func main() {
 	db := database.StartDB()
 	defer db.Close()
 
-	r := gin.Default()
-
-	r.Use(middleware.CORSMiddleware())
+	gin.Default()
 
 	myApp := api.NewApp(db)
 
