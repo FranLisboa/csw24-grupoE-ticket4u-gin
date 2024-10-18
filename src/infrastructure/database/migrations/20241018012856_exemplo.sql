@@ -7,7 +7,7 @@ CREATE TABLE "user" (
     "address" VARCHAR(255) NOT NULL,
     "phone" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL UNIQUE,
-    "password_hash" VARCHAR(255) NOT NULL,
+    "password_hash" VARCHAR(255) NOT NULL
 );
 -- +goose StatementEnd
 -- +goose Down
