@@ -1,31 +1,21 @@
 package api
 
 import (
+	userController "const/application/api/controllers/user"
+	"const/core/services/user"
 	"database/sql"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Setup(router *gin.Engine, db *sql.DB) {
-	router.Group("/api/v1")
+	userService := user.NewService(db)
 
-	// v1.GET("/users", func(ctx *gin.Context) {
-	// 	getUsers(ctx, db)
-	// })
+	v1 := router.Group("/api/v1")
 
-	// v1.GET("/users/:id", func(ctx *gin.Context) {
-	// 	getUserByID(ctx, db)
-	// })
+	userController.Handler(v1, userService)
 
-	// v1.POST("/users", func(ctx *gin.Context) {
-	// 	createUser(ctx, db)
-	// })
-
-	// v1.PUT("/users/:id", func(ctx *gin.Context) {
-	// 	updateUser(ctx, db)
-	// })
-
-	// v1.DELETE("/users/:id", func(ctx *gin.Context) {
-	// 	deleteUser(ctx, db)
-	// })
+	router.GET("/ping", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "pong"})
+	})
 }
