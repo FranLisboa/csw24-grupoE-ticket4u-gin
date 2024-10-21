@@ -20,6 +20,7 @@ type UserServiceInterface interface {
 	GetUserByEmail(ctx context.Context, email string) (*models.Usuario, error)
 	DeleteUser(ctx context.Context, userID int) error
 	CreateNotificationPreferences(ctx context.Context, preferenciasdenotificacao *models.Preferenciasdenotificacao) error
+	GetUserNotificationPreferencesByUserID(ctx context.Context, userID int) (*models.Preferenciasdenotificacao, error)
 }
 
 func NewService(db *sql.DB) UserService {
@@ -79,4 +80,8 @@ func (s *UserService) CreateNotificationPreferences(ctx context.Context, prefere
 		return err
 	}
 	return nil
+}
+
+func (s *UserService) GetUserNotificationPreferencesByUserID(ctx context.Context, userID int) (*models.Preferenciasdenotificacao, error) {
+	return models.Preferenciasdenotificacaos(models.PreferenciasdenotificacaoWhere.Userid.EQ(userID)).One(ctx, s.db)
 }

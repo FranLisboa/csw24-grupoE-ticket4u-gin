@@ -157,6 +157,31 @@ func (c *UserController) CreateUserNotificationPreferences(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, userNotificationPreferences)
 }
 
+func (c *UserController) UpdateUserNotificationPreferences(ctx *gin.Context) {
+	userIDStr := ctx.Param("id")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID de usuário inválido"})
+		return
+	}
+
+	var userNotificationPreferences models.Preferenciasdenotificacao
+	if err := ctx.ShouldBindJSON(&userNotificationPreferences); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	existingUserNotificationPreferences, err := c.userService.GetUserNotificationPreferencesByUserID(ctx, userID)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "Preferências de notificação não encontradas"})
+		return
+	}
+
+	existingUserNotificationPreferences.Receberemails = userNotificationPreferences.Receberemails
+
+	ctx.JSON(http.StatusOK, existingUserNotificationPreferences)
+}
+
 func Handler(router *gin.RouterGroup, userService *userServices.UserService, financeService *finanseServices.FinanceService) {
 	controller := NewUserController(userService, financeService)
 
@@ -166,4 +191,5 @@ func Handler(router *gin.RouterGroup, userService *userServices.UserService, fin
 	router.DELETE("/users/:id", controller.DeleteUser)
 	router.GET("/users", controller.ListUsers)
 	router.POST("/users/notification-preferences", controller.CreateUserNotificationPreferences)
+	router.PUT("/users/notification-preferences/:id", controller.UpdateUserNotificationPreferences)
 }
