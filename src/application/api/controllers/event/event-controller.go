@@ -124,5 +124,5 @@ func Handler(router *gin.RouterGroup, eventService *services.EventoService) {
 	router.GET("/event", controller.GetAllEvents)
 	router.PUT("/event/:id", controller.UpdateEvent)
 	router.DELETE("/event/:id", controller.DeleteEvent)
-	router.GET("/event/:tenantID", controller.GetEventsByTenant)
+	router.GET("/event/tenant/:tenantID", controller.GetEventsByTenant)
 }

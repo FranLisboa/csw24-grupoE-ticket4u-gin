@@ -126,7 +126,7 @@ func Handler(router *gin.RouterGroup, ticketService *services.TicketService) {
 
 	router.POST("/tickets", controller.CreateTicket)
 	router.GET("/events/:eventID/tickets", controller.GetAvailableTicketsByEvent)
-	router.GET("/users/:userID/tickets", controller.GetTicketsBySeller)
+	router.GET("/users/tickets/:userID", controller.GetTicketsBySeller)
 	router.PUT("/tickets/:ticketID/use", controller.MarkTicketAsUsed)
 	router.POST("/tickets/authenticate", controller.AuthenticateTicket)
 }
