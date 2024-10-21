@@ -165,4 +165,5 @@ func Handler(router *gin.RouterGroup, userService *userServices.UserService, fin
 	router.PUT("/users/:id", controller.UpdateUser)
 	router.DELETE("/users/:id", controller.DeleteUser)
 	router.GET("/users", controller.ListUsers)
+	router.POST("/users/notification-preferences", controller.CreateUserNotificationPreferences)
 }
