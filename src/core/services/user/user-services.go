@@ -4,6 +4,7 @@ import (
 	"const/core/orm/models"
 	"context"
 	"database/sql"
+
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
@@ -12,10 +13,12 @@ type UserService struct {
 }
 
 type UserServiceInterface interface {
-	CreateUser(ctx context.Context, user *models.User) error
-	GetUsers(ctx context.Context) ([]*models.User, error)
-	GetUserByID(ctx context.Context, id string) (*models.User, error)
-	UpdateUser(ctx context.Context, id string, user *models.User) error
+	CreateUser(ctx context.Context, user *models.Usuario) error
+	GetUsers(ctx context.Context) ([]*models.Usuario, error)
+	GetUserByID(ctx context.Context, id string) (*models.Usuario, error)
+	UpdateUser(ctx context.Context, id string, user *models.Usuario) error
+	GetUserByEmail(ctx context.Context, email string) (*models.Usuario, error)
+	DeleteUser(ctx context.Context, userID int) error
 }
 
 func NewService(db *sql.DB) UserService {
@@ -24,7 +27,7 @@ func NewService(db *sql.DB) UserService {
 	}
 }
 
-func (s *UserService) CreateUser(ctx context.Context, user *models.User) error {
+func (s *UserService) CreateUser(ctx context.Context, user *models.Usuario) error {
 	err := user.Insert(ctx, s.db, boil.Infer())
 	if err != nil {
 		return err
@@ -32,26 +35,39 @@ func (s *UserService) CreateUser(ctx context.Context, user *models.User) error {
 	return nil
 }
 
-func (s *UserService) GetUsers(ctx context.Context) ([]*models.User, error) {
-	users, err := models.Users().All(ctx, s.db)
+func (s *UserService) GetUsers(ctx context.Context) ([]*models.Usuario, error) {
+	users, err := models.Usuarios().All(ctx, s.db)
 	if err != nil {
 		return nil, err
 	}
 	return users, nil
 }
 
-func (s *UserService) GetUserByID(ctx context.Context, id int) (*models.User, error) {
-	user, err := models.FindUser(ctx, s.db, id)
+func (s *UserService) GetUserByID(ctx context.Context, id int) (*models.Usuario, error) {
+	user, err := models.FindUsuario(ctx, s.db, id)
 	if err != nil {
 		return nil, err
 	}
 	return user, nil
 }
 
-func (s *UserService) UpdateUser(ctx context.Context, id int, user *models.User) error {
+func (s *UserService) UpdateUser(ctx context.Context, id int, user *models.Usuario) error {
 	_, err := user.Update(ctx, s.db, boil.Infer())
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (s *UserService) GetUserByEmail(ctx context.Context, email string) (*models.Usuario, error) {
+	return models.Usuarios(models.UsuarioWhere.Email.EQ(email)).One(ctx, s.db)
+}
+
+func (s *UserService) DeleteUser(ctx context.Context, userID int) error {
+	user, err := s.GetUserByID(ctx, userID)
+	if err != nil {
+		return err
+	}
+	_, err = user.Delete(ctx, s.db)
+	return err
 }

@@ -30,7 +30,7 @@ func Setup(router *gin.Engine, db *sql.DB) {
 
 	v1 := router.Group("/api/v1")
 
-	userController.Handler(v1, userService)
+	userController.Handler(v1, &userService)
 	tenantController.Handler(v1, tenantService)
 	eventController.Handler(v1, eventService)
 	ticketController.Handler(v1, ticketService)
