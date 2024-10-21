@@ -4,7 +4,23 @@
 package models
 
 var TableNames = struct {
-	User string
+	Avaliacao                 string
+	Evento                    string
+	Movimentofinanceiro       string
+	Preferenciasdenotificacao string
+	Tenant                    string
+	Ticket                    string
+	Transacao                 string
+	User                      string
+	Usuario                   string
 }{
-	User: "user",
+	Avaliacao:                 "avaliacao",
+	Evento:                    "evento",
+	Movimentofinanceiro:       "movimentofinanceiro",
+	Preferenciasdenotificacao: "preferenciasdenotificacao",
+	Tenant:                    "tenant",
+	Ticket:                    "ticket",
+	Transacao:                 "transacao",
+	User:                      "user",
+	Usuario:                   "usuario",
 }
