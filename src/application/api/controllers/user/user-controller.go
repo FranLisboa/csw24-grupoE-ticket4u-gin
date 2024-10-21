@@ -2,10 +2,11 @@ package user
 
 import (
 	"const/core/orm/models"
-	"const/core/services"
-	"github.com/gin-gonic/gin"
+	services "const/core/services/user"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserController struct {

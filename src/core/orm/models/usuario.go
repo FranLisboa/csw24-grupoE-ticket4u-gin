@@ -19,7 +19,6 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"github.com/volatiletech/sqlboiler/v4/queries/qmhelper"
 	"github.com/volatiletech/strmangle"
-	"github.com/volatiletech/sqlboiler/v4/types"
 )
 
 // Usuario is an object representing the database table.
