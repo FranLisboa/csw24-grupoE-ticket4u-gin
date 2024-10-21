@@ -19,6 +19,7 @@ type UserServiceInterface interface {
 	UpdateUser(ctx context.Context, id string, user *models.Usuario) error
 	GetUserByEmail(ctx context.Context, email string) (*models.Usuario, error)
 	DeleteUser(ctx context.Context, userID int) error
+	CreateNotificationPreferences(ctx context.Context, preferenciasdenotificacao *models.Preferenciasdenotificacao) error
 }
 
 func NewService(db *sql.DB) UserService {
@@ -70,4 +71,12 @@ func (s *UserService) DeleteUser(ctx context.Context, userID int) error {
 	}
 	_, err = user.Delete(ctx, s.db)
 	return err
+}
+
+func (s *UserService) CreateNotificationPreferences(ctx context.Context, preferenciasdenotificacao *models.Preferenciasdenotificacao) error {
+	err := preferenciasdenotificacao.Insert(ctx, s.db, boil.Infer())
+	if err != nil {
+		return err
+	}
+	return nil
 }

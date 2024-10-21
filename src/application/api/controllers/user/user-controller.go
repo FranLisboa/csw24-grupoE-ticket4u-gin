@@ -134,6 +134,29 @@ func (c *UserController) GetUserBalance(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"balance": balance})
 }
 
+func (c *UserController) CreateUserNotificationPreferences(ctx *gin.Context) {
+	var userNotificationPreferences models.Preferenciasdenotificacao
+	if err := ctx.ShouldBindJSON(&userNotificationPreferences); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := c.userService.CreateNotificationPreferences(ctx, &userNotificationPreferences); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := c.userService.GetUserByID(ctx, userNotificationPreferences.Userid)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	userNotificationPreferences.Userid = user.Userid
+
+	ctx.JSON(http.StatusCreated, userNotificationPreferences)
+}
+
 func Handler(router *gin.RouterGroup, userService *userServices.UserService, financeService *finanseServices.FinanceService) {
 	controller := NewUserController(userService, financeService)
 
