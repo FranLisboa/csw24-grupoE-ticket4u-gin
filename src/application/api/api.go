@@ -8,6 +8,7 @@ import (
 	userController "const/application/api/controllers/user"
 
 	event "const/core/services/event"
+	finance "const/core/services/finance"
 	tenant "const/core/services/tenant"
 	ticket "const/core/services/ticket"
 	transaction "const/core/services/transaction"
@@ -23,8 +24,9 @@ func Setup(router *gin.Engine, db *sql.DB) {
 	userService := user.NewService(db)
 	eventService := event.NewEventoService(db)
 	tenantService := tenant.NewTenantService(db)
+	financeService := finance.NewFinanceService(db)
 	ticketService := ticket.NewTicketService(db)
-	transactionService := transaction.NewTransactionService(db)
+	transactionService := transaction.NewTransactionService(db, ticketService, financeService)
 
 	v1 := router.Group("/api/v1")
 
