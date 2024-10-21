@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"const/core/orm/models"
-	services "const/core/services/user"
+	finanseServices "const/core/services/finance"
+	userServices "const/core/services/user"
 	"net/http"
 	"strconv"
 
@@ -10,11 +11,14 @@ import (
 )
 
 type UserController struct {
-	userService *services.UserService
+	userService    *userServices.UserService
+	financeService *finanseServices.FinanceService
 }
 
-func NewUserController(userService *services.UserService) *UserController {
-	return &UserController{userService: userService}
+func NewUserController(userService *userServices.UserService, financeService *finanseServices.FinanceService) *UserController {
+	return &UserController{
+		userService:    userService,
+		financeService: financeService}
 }
 
 func (c *UserController) CreateUser(ctx *gin.Context) {
@@ -113,8 +117,25 @@ func (c *UserController) ListUsers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users)
 }
 
-func Handler(router *gin.RouterGroup, userService *services.UserService) {
-	controller := NewUserController(userService)
+func (c *UserController) GetUserBalance(ctx *gin.Context) {
+	userIDStr := ctx.Param("id")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID de usuário inválido"})
+		return
+	}
+
+	balance, err := c.financeService.GetUserBalance(ctx, userID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"balance": balance})
+}
+
+func Handler(router *gin.RouterGroup, userService *userServices.UserService, financeService *finanseServices.FinanceService) {
+	controller := NewUserController(userService, financeService)
 
 	router.POST("/users", controller.CreateUser)
 	router.GET("/users/:id", controller.GetUserByID)
