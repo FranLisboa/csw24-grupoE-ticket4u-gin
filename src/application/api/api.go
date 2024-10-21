@@ -2,7 +2,7 @@ package api
 
 import (
 	userController "const/application/api/controllers/user"
-	"const/core/services/user"
+	user "const/core/services"
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"net/http"
