@@ -4,6 +4,7 @@ import (
 	"const/core/orm/models"
 	"context"
 	"database/sql"
+	"errors"
 
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
@@ -57,4 +58,29 @@ func (s *TicketService) MarkTicketAsUsed(ctx context.Context, ticketID int) erro
 	ticket.Usado = null.BoolFrom(true)
 	_, err = ticket.Update(ctx, s.db, boil.Whitelist("status", "usado"))
 	return err
+}
+
+func (s *TicketService) AuthenticateTicket(ctx context.Context, codigoUnico string) error {
+	ticket, err := models.Tickets(
+		models.TicketWhere.Codigounicodeverificacao.EQ(codigoUnico),
+	).One(ctx, s.db)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return errors.New("ingresso não encontrado")
+		}
+		return err
+	}
+
+	if ticket.Usado.Valid && ticket.Usado.Bool {
+		return errors.New("ingresso já foi utilizado")
+	}
+
+	ticket.Status = "usado"
+	ticket.Usado = null.BoolFrom(true)
+	_, err = ticket.Update(ctx, s.db, boil.Whitelist("status", "usado"))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

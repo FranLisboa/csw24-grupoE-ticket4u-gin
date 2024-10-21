@@ -92,6 +92,31 @@ func (c *TicketController) MarkTicketAsUsed(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
+func (c *TicketController) AuthenticateTicket(ctx *gin.Context) {
+	var request struct {
+		CodigoUnicoDeVerificacao string `json:"codigo_unico_de_verificacao"`
+	}
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := c.ticketService.AuthenticateTicket(ctx, request.CodigoUnicoDeVerificacao)
+	if err != nil {
+		switch err.Error() {
+		case "ingresso não encontrado":
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		case "ingresso já foi utilizado":
+			ctx.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		default:
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Ingresso autenticado com sucesso"})
+}
+
 func generateUniqueCode() string {
 	return "UNIQUE-CODE-1234"
 }
@@ -103,4 +128,5 @@ func Handler(router *gin.RouterGroup, ticketService *services.TicketService) {
 	router.GET("/events/:eventID/tickets", controller.GetAvailableTicketsByEvent)
 	router.GET("/users/:userID/tickets", controller.GetTicketsBySeller)
 	router.PUT("/tickets/:ticketID/use", controller.MarkTicketAsUsed)
+	router.POST("/tickets/authenticate", controller.AuthenticateTicket)
 }
