@@ -58,6 +58,7 @@ terraform apply
 # Acessando o Swagger
 
 Para acessar o swagger, baster ir em URL/swagger/index.html 
+
 ex: http://localhost:8080/swagger/index.html
 
  
