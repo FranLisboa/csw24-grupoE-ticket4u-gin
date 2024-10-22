@@ -11,7 +11,6 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
-  shared_credentials_files = ["~/.aws/credentials"]
 }
 
 resource "tls_private_key" "rsa-4096" {
@@ -88,6 +87,7 @@ resource "aws_instance" "t1_ticket_api" {
               apt-get update -y
               # Install Docker
               apt-get install docker.io -y
+              apt-get install docker-compose -y
               # Start Docker service
               systemctl start docker
               systemctl enable docker
