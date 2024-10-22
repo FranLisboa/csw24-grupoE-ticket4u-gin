@@ -33,7 +33,7 @@ type Transaction = models.Transacao
 // @success 201 {object} Transaction
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /transaction [post]
+// @router /api/v1/transaction [post]
 func (c *TransactionController) PurchaseTicket(ctx *gin.Context) {
 	var purchaseRequest struct {
 		TicketID     int           `json:"ticket_id"`
@@ -69,7 +69,7 @@ func (c *TransactionController) PurchaseTicket(ctx *gin.Context) {
 // @success 200
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /transaction/{id}/refund [put]
+// @router /api/v1/transaction/{id}/refund [put]
 func (c *TransactionController) RequestRefund(ctx *gin.Context) {
 	transactionIDStr := ctx.Param("id")
 	transactionID, err := strconv.Atoi(transactionIDStr)

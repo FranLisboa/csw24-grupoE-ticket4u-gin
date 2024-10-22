@@ -30,7 +30,7 @@ func NewEventController(eventService *services.EventoService) *EventController {
 // @produce json
 // @param ctx body Evento true "Evento object"
 // @success 201 {object} Evento
-// @router /event [post]
+// @router /api/v1/event [post]
 func (c *EventController) CreateEvent(ctx *gin.Context) {
 	var event models.Evento
 	if err := ctx.ShouldBindJSON(&event); err != nil {
@@ -53,7 +53,7 @@ func (c *EventController) CreateEvent(ctx *gin.Context) {
 // @produce json
 // @param id path int true "Event ID"
 // @success 200 {object} Evento
-// @router /event/{id} [get]
+// @router /api/v1/event/{id} [get]
 func (c *EventController) GetEventByID(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -77,7 +77,7 @@ func (c *EventController) GetEventByID(ctx *gin.Context) {
 // @accept json
 // @produce json
 // @success 200 {array} Evento
-// @router /event [get]
+// @router /api/v1/event [get]
 func (c *EventController) GetAllEvents(ctx *gin.Context) {
 	events, err := c.eventService.GetAllEventos(ctx)
 	if err != nil {
@@ -96,7 +96,7 @@ func (c *EventController) GetAllEvents(ctx *gin.Context) {
 // @param id path int true "Event ID"
 // @param ctx body Evento true "Event object"
 // @success 200 {object} Evento
-// @router /event/{id} [put]
+// @router /api/v1/event/{id} [put]
 func (c *EventController) UpdateEvent(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -126,7 +126,7 @@ func (c *EventController) UpdateEvent(ctx *gin.Context) {
 // @tags event
 // @param id path int true "Event ID"
 // @success 204
-// @router /event/{id} [delete]
+// @router /api/v1/event/{id} [delete]
 func (c *EventController) DeleteEvent(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -150,7 +150,7 @@ func (c *EventController) DeleteEvent(ctx *gin.Context) {
 // @produce json
 // @param tenantID path int true "Tenant ID"
 // @success 200 {array} Evento
-// @router /event/tenant/{tenantID} [get]
+// @router /api/v1/event/tenant/{tenantID} [get]
 func (c *EventController) GetEventsByTenant(ctx *gin.Context) {
 	tenantIDStr := ctx.Param("tenantID")
 	tenantID, err := strconv.Atoi(tenantIDStr)

@@ -32,7 +32,7 @@ func NewTicketController(ticketService *services.TicketService) *TicketControlle
 // @Success 201 {object} Ticket
 // @Failure 400 {object} Error
 // @Failure 500 {object} Error
-// @Router /tickets [post]
+// @router /api/v1/tickets [post]
 func (c *TicketController) CreateTicket(ctx *gin.Context) {
 	var ticket models.Ticket
 	if err := ctx.ShouldBindJSON(&ticket); err != nil {
@@ -66,7 +66,7 @@ func (c *TicketController) CreateTicket(ctx *gin.Context) {
 // @success 200 {array} Ticket
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /events/{eventID}/tickets [get]
+// @router /api/v1/events/{eventID}/tickets [get]
 func (c *TicketController) GetAvailableTicketsByEvent(ctx *gin.Context) {
 	eventIDStr := ctx.Param("eventID")
 	eventID, err := strconv.Atoi(eventIDStr)
@@ -93,7 +93,7 @@ func (c *TicketController) GetAvailableTicketsByEvent(ctx *gin.Context) {
 // @success 200 {array} Ticket
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /users/tickets/{userID} [get]
+// @router /api/v1/users/tickets/{userID} [get]
 func (c *TicketController) GetTicketsBySeller(ctx *gin.Context) {
 	sellerIDStr := ctx.Param("userID")
 	sellerID, err := strconv.Atoi(sellerIDStr)
@@ -120,7 +120,7 @@ func (c *TicketController) GetTicketsBySeller(ctx *gin.Context) {
 // @success 200
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /tickets/{ticketID}/use [put]
+// @router /api/v1/tickets/{ticketID}/use [put]
 func (c *TicketController) MarkTicketAsUsed(ctx *gin.Context) {
 	ticketIDStr := ctx.Param("ticketID")
 	ticketID, err := strconv.Atoi(ticketIDStr)
@@ -148,7 +148,7 @@ func (c *TicketController) MarkTicketAsUsed(ctx *gin.Context) {
 // @failure 404 {object} Error
 // @failure 409 {object} Error
 // @failure 500 {object} Error
-// @router /tickets/authenticate [post]
+// @router /api/v1/tickets/authenticate [post]
 func (c *TicketController) AuthenticateTicket(ctx *gin.Context) {
 	var request struct {
 		CodigoUnicoDeVerificacao string `json:"codigo_unico_de_verificacao"`

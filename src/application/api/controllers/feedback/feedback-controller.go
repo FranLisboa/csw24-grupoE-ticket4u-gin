@@ -32,7 +32,7 @@ func NewFeedbackController(avaliacaoService *services.FeedbackService) *Feedback
 // @success 201 {object} Avaliacao
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /feedback [post]
+// @router /api/v1/avaliacao [post]
 func (c *FeedbackController) CreateAvaliacao(ctx *gin.Context) {
 	var avaliacao models.Avaliacao
 	if err := ctx.ShouldBindJSON(&avaliacao); err != nil {
@@ -57,7 +57,7 @@ func (c *FeedbackController) CreateAvaliacao(ctx *gin.Context) {
 // @success 200 {array} Avaliacao
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /vendedor/{vendedorID}/feedback [get]
+// @router /api/v1/vendedor/{vendedorID}/avaliacao [get]
 func (c *FeedbackController) GetAvaliacoesByVendedor(ctx *gin.Context) {
 	vendedorIDStr := ctx.Param("vendedorID")
 	vendedorID, err := strconv.Atoi(vendedorIDStr)

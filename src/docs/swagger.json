@@ -4,7 +4,53 @@
         "contact": {}
     },
     "paths": {
-        "/event": {
+        "/api/v1/avaliacao": {
+            "post": {
+                "description": "Create a new feedback",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "feedback"
+                ],
+                "summary": "Create a new feedback",
+                "parameters": [
+                    {
+                        "description": "Avaliacao object",
+                        "name": "avaliacao",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Avaliacao"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.Avaliacao"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/const_application_api_controllers_feedback.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/const_application_api_controllers_feedback.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/event": {
             "get": {
                 "description": "Get all events",
                 "consumes": [
@@ -62,7 +108,7 @@
                 }
             }
         },
-        "/event/tenant/{tenantID}": {
+        "/api/v1/event/tenant/{tenantID}": {
             "get": {
                 "description": "Get events by tenant",
                 "consumes": [
@@ -97,7 +143,7 @@
                 }
             }
         },
-        "/event/{id}": {
+        "/api/v1/event/{id}": {
             "get": {
                 "description": "Get event by ID",
                 "consumes": [
@@ -189,7 +235,7 @@
                 }
             }
         },
-        "/events/{eventID}/tickets": {
+        "/api/v1/events/{eventID}/tickets": {
             "get": {
                 "description": "Get available tickets by event",
                 "consumes": [
@@ -236,53 +282,7 @@
                 }
             }
         },
-        "/feedback": {
-            "post": {
-                "description": "Create a new feedback",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "feedback"
-                ],
-                "summary": "Create a new feedback",
-                "parameters": [
-                    {
-                        "description": "Avaliacao object",
-                        "name": "avaliacao",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/controllers.Avaliacao"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.Avaliacao"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/const_application_api_controllers_feedback.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/const_application_api_controllers_feedback.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/tickets": {
+        "/api/v1/tickets": {
             "post": {
                 "description": "Create a new ticket",
                 "consumes": [
@@ -328,7 +328,7 @@
                 }
             }
         },
-        "/tickets/authenticate": {
+        "/api/v1/tickets/authenticate": {
             "post": {
                 "description": "Authenticate ticket",
                 "consumes": [
@@ -381,7 +381,7 @@
                 }
             }
         },
-        "/tickets/{ticketID}/use": {
+        "/api/v1/tickets/{ticketID}/use": {
             "put": {
                 "description": "Mark ticket as used",
                 "consumes": [
@@ -422,7 +422,7 @@
                 }
             }
         },
-        "/transaction": {
+        "/api/v1/transaction": {
             "post": {
                 "description": "Purchase a ticket",
                 "consumes": [
@@ -468,7 +468,7 @@
                 }
             }
         },
-        "/transaction/{id}/refund": {
+        "/api/v1/transaction/{id}/refund": {
             "put": {
                 "description": "Request refund",
                 "consumes": [
@@ -509,7 +509,7 @@
                 }
             }
         },
-        "/transactions": {
+        "/api/v1/transactions": {
             "post": {
                 "description": "Purchase a ticket",
                 "consumes": [
@@ -555,7 +555,7 @@
                 }
             }
         },
-        "/transactions/{id}/refund": {
+        "/api/v1/transactions/{id}/refund": {
             "put": {
                 "description": "Request a refund",
                 "consumes": [
@@ -599,7 +599,7 @@
                 }
             }
         },
-        "/users": {
+        "/api/v1/users": {
             "post": {
                 "description": "Create a new user",
                 "consumes": [
@@ -645,7 +645,7 @@
                 }
             }
         },
-        "/users/notification-preferences": {
+        "/api/v1/users/notification-preferences": {
             "post": {
                 "description": "Create user notification preferences",
                 "consumes": [
@@ -691,7 +691,7 @@
                 }
             }
         },
-        "/users/notification-preferences/{id}": {
+        "/api/v1/users/notification-preferences/{id}": {
             "put": {
                 "description": "Update user notification preferences",
                 "consumes": [
@@ -750,7 +750,7 @@
                 }
             }
         },
-        "/users/tickets/{userID}": {
+        "/api/v1/users/tickets/{userID}": {
             "get": {
                 "description": "Get tickets by seller",
                 "consumes": [
@@ -797,7 +797,7 @@
                 }
             }
         },
-        "/users/{id}": {
+        "/api/v1/users/{id}": {
             "get": {
                 "description": "Get user by ID",
                 "consumes": [
@@ -931,7 +931,7 @@
                 }
             }
         },
-        "/users/{id}/balance": {
+        "/api/v1/users/{id}/balance": {
             "get": {
                 "description": "Get user balance",
                 "consumes": [
@@ -975,7 +975,7 @@
                 }
             }
         },
-        "/vendedor/{vendedorID}/feedback": {
+        "/api/v1/vendedor/{vendedorID}/avaliacao": {
             "get": {
                 "description": "Get feedbacks by seller",
                 "consumes": [
@@ -1065,30 +1065,7 @@
             }
         },
         "controllers.Avaliacao": {
-            "type": "object",
-            "properties": {
-                "avaliacaoid": {
-                    "type": "integer"
-                },
-                "comentario": {
-                    "$ref": "#/definitions/null.String"
-                },
-                "compradorid": {
-                    "type": "integer"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "nota": {
-                    "type": "integer"
-                },
-                "transacaoid": {
-                    "type": "integer"
-                },
-                "vendedorid": {
-                    "type": "integer"
-                }
-            }
+            "type": "object"
         },
         "controllers.Balance": {
             "type": "object",
@@ -1099,56 +1076,10 @@
             }
         },
         "controllers.Evento": {
-            "type": "object",
-            "properties": {
-                "dataehora": {
-                    "type": "string"
-                },
-                "eventoid": {
-                    "type": "integer"
-                },
-                "localizacao": {
-                    "$ref": "#/definitions/null.String"
-                },
-                "nomedoevento": {
-                    "type": "string"
-                },
-                "tenantid": {
-                    "type": "integer"
-                },
-                "tipo": {
-                    "$ref": "#/definitions/null.String"
-                }
-            }
+            "type": "object"
         },
         "controllers.Ticket": {
-            "type": "object",
-            "properties": {
-                "codigounicodeverificacao": {
-                    "type": "string"
-                },
-                "eventoid": {
-                    "type": "integer"
-                },
-                "iddovendedor": {
-                    "type": "integer"
-                },
-                "precooriginal": {
-                    "type": "number"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "tenantid": {
-                    "type": "integer"
-                },
-                "ticketid": {
-                    "type": "integer"
-                },
-                "usado": {
-                    "$ref": "#/definitions/null.Bool"
-                }
-            }
+            "type": "object"
         },
         "controllers.Transaction": {
             "type": "object",
@@ -1194,40 +1125,7 @@
             }
         },
         "controllers.UserNotificationPreferences": {
-            "type": "object",
-            "properties": {
-                "preferenciasid": {
-                    "type": "integer"
-                },
-                "receberemails": {
-                    "$ref": "#/definitions/null.Bool"
-                },
-                "userid": {
-                    "type": "integer"
-                }
-            }
-        },
-        "null.Bool": {
-            "type": "object",
-            "properties": {
-                "bool": {
-                    "type": "boolean"
-                },
-                "valid": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "null.String": {
-            "type": "object",
-            "properties": {
-                "string": {
-                    "type": "string"
-                },
-                "valid": {
-                    "type": "boolean"
-                }
-            }
+            "type": "object"
         },
         "services.Transaction": {
             "type": "object",

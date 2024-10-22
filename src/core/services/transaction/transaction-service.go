@@ -41,7 +41,7 @@ type Transaction = models.Transacao
 // @success 201 {object} Transaction
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /transactions [post]
+// @router /api/v1/transactions [post]
 func (s *TransactionService) PurchaseTicket(ctx context.Context, transaction *models.Transacao) error {
 	fmt.Println("entrando no service")
 
@@ -96,7 +96,7 @@ func (s *TransactionService) PurchaseTicket(ctx context.Context, transaction *mo
 // @success 200 {object} Transaction
 // @failure 400 {object} Error
 // @failure 500 {object} Error
-// @router /transactions/{id}/refund [put]
+// @router /api/v1/transactions/{id}/refund [put]
 func (s *TransactionService) RequestRefund(ctx context.Context, transactionID int) error {
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {
