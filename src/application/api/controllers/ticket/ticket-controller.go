@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type Ticket = models.Ticket
@@ -174,7 +175,7 @@ func (c *TicketController) AuthenticateTicket(ctx *gin.Context) {
 }
 
 func generateUniqueCode() string {
-	return "UNIQUE-CODE-1234"
+	return uuid.New().String()
 }
 
 func Handler(router *gin.RouterGroup, ticketService *services.TicketService) {
