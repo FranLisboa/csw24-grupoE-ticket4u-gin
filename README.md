@@ -9,8 +9,11 @@
   
 # Dependências e Tecnologias
 [Docker](https://www.docker.com/)
+
 [Go](https://go.dev/)
+
 [Terraform](https://www.terraform.io/)
+
 [AWS](https://aws.amazon.com/)
 
 # Como executar localmente o programa
