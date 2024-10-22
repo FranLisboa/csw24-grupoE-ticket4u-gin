@@ -30,8 +30,8 @@ resource "local_file" "private_key" {
   filename = var.key_name
 }
 
-resource "aws_security_group" "docker_sg" {
-  name        = "allow_ssh_http"
+resource "aws_security_group" "sec_group" {
+  name        = "new_sec_group"
   description = "Allow SSH and HTTP inbound traffic"
 
   ingress {
@@ -70,33 +70,56 @@ resource "aws_security_group" "docker_sg" {
   }
 }
 
-resource "aws_instance" "t1_ticket_api" {
+resource "aws_instance" "t1_ticket_api_v1" {
   ami           = "ami-0866a3c8686eaeeba"
   instance_type = "t2.micro"
   key_name      = aws_key_pair.key_pair.key_name
 
   tags = {
-    Name = "t1_ticket_api"
+    Name = "t1_ticket_api_v1"
   }
 
-  vpc_security_group_ids = [aws_security_group.docker_sg.id]
+  vpc_security_group_ids = [aws_security_group.sec_group.id]
   
   user_data = <<-EOF
               #!/bin/bash
               # Update package index
-              apt-get update -y
+              sudo apt-get update -y
+              sudo ufw allow 8080
+
               # Install Docker
-              apt-get install docker.io -y
-              apt-get install docker-compose -y
+
+              sudo apt-get update
+              sudo apt-get install ca-certificates curl
+              sudo install -m 0755 -d /etc/apt/keyrings
+              sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+              sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+              # Add the repository to Apt sources:
+              echo \
+                "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+                $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+                sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              sudo apt-get update
+
+              # Install Docker Engine
+              sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
               # Start Docker service
-              systemctl start docker
-              systemctl enable docker
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              
               # Clone github
+              mkdir repo
+              cd repo
               git clone https://github.com/GuilhermePoglia/csw24-grupoE-ticket4u-gin.git
-              # Entering repo
-              cd /home/ubuntu/csw24-grupoE-ticket4u-gin/src
+
+              # Enter repo
+              cd csw24-grupoE-ticket4u-gin
+              cd src
+
               # Build Docker image
-              docker compose up db -d
-              docker compose up app -d
+              sudo docker compose up db -d
+              sudo docker compose up app -d
               EOF
 }
