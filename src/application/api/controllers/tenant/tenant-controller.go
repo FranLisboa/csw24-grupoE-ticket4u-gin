@@ -17,6 +17,11 @@ func NewTenantController(tenantService *services.TenantService) *TenantControlle
 	return &TenantController{tenantService: tenantService}
 }
 
+type Error struct {
+	Message string `json:"message"`
+}
+type Tenant = models.Tenant
+
 func (c *TenantController) CreateTenant(ctx *gin.Context) {
 	var tenant models.Tenant
 	if err := ctx.ShouldBindJSON(&tenant); err != nil {

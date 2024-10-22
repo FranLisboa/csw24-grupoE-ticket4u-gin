@@ -8,6 +8,10 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
+type Error struct {
+	Message string `json:"message"`
+}
+
 type TenantService struct {
 	db *sql.DB
 }

@@ -7,6 +7,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
@@ -26,14 +27,32 @@ func NewTransactionService(db *sql.DB, ticketService *TicketService, financeServ
 	}
 }
 
+type Error struct {
+	Message string `json:"message"`
+}
+type Transaction = models.Transacao
+
+// @summary Purchase a ticket
+// @description Purchase a ticket
+// @tags transactions
+// @accept json
+// @produce json
+// @param transaction body Transaction true "Transaction object"
+// @success 201 {object} Transaction
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /transactions [post]
 func (s *TransactionService) PurchaseTicket(ctx context.Context, transaction *models.Transacao) error {
+	fmt.Println("entrando no service")
+
 	tx, err := s.db.BeginTx(ctx, nil)
+	fmt.Println("erro no begin", err)
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
 
 	ticket, err := models.FindTicket(ctx, tx, transaction.Iddoticket)
+	fmt.Println("erro no findticket", ticket)
 	if err != nil {
 		return err
 	}
@@ -68,6 +87,16 @@ func (s *TransactionService) PurchaseTicket(ctx context.Context, transaction *mo
 	return tx.Commit()
 }
 
+// @summary Request a refund
+// @description Request a refund
+// @tags transactions
+// @accept json
+// @produce json
+// @param id path int true "Transaction ID"
+// @success 200 {object} Transaction
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /transactions/{id}/refund [put]
 func (s *TransactionService) RequestRefund(ctx context.Context, transactionID int) error {
 	tx, err := s.db.BeginTx(ctx, nil)
 	if err != nil {

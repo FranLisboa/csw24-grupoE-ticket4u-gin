@@ -21,6 +21,26 @@ func NewUserController(userService *userServices.UserService, financeService *fi
 		financeService: financeService}
 }
 
+type Error struct {
+	Message string `json:"message"`
+}
+
+type User = models.Usuario
+type Balance struct {
+	Balance float64 `json:"balance"`
+}
+type UserNotificationPreferences = models.Preferenciasdenotificacao
+
+// @summary Create a new user
+// @description Create a new user
+// @tags users
+// @accept json
+// @produce json
+// @param user body User true "User object"
+// @success 201 {object} User
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /users [post]
 func (c *UserController) CreateUser(ctx *gin.Context) {
 	var user models.Usuario
 	if err := ctx.ShouldBindJSON(&user); err != nil {
@@ -42,6 +62,16 @@ func (c *UserController) CreateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, user)
 }
 
+// @summary Get user by ID
+// @description Get user by ID
+// @tags users
+// @accept json
+// @produce json
+// @param id path int true "User ID"
+// @success 200 {object} User
+// @failure 400 {object} Error
+// @failure 404 {object} Error
+// @router /users/{id} [get]
 func (c *UserController) GetUserByID(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -59,6 +89,18 @@ func (c *UserController) GetUserByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, user)
 }
 
+// @summary Update user
+// @description Update user
+// @tags users
+// @accept json
+// @produce json
+// @param id path int true "User ID"
+// @param user body User true "User object"
+// @success 200 {object} User
+// @failure 400 {object} Error
+// @failure 404 {object} Error
+// @failure 500 {object} Error
+// @router /users/{id} [put]
 func (c *UserController) UpdateUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -91,6 +133,14 @@ func (c *UserController) UpdateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, existingUser)
 }
 
+// @summary Delete user
+// @description Delete user
+// @tags users
+// @param id path int true "User ID"
+// @success 204
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /users/{id} [delete]
 func (c *UserController) DeleteUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	id, err := strconv.Atoi(idStr)
@@ -117,6 +167,16 @@ func (c *UserController) ListUsers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users)
 }
 
+// @summary Get user balance
+// @description Get user balance
+// @tags users
+// @accept json
+// @produce json
+// @param id path int true "User ID"
+// @success 200 {object} Balance
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /users/{id}/balance [get]
 func (c *UserController) GetUserBalance(ctx *gin.Context) {
 	userIDStr := ctx.Param("id")
 	userID, err := strconv.Atoi(userIDStr)
@@ -134,6 +194,16 @@ func (c *UserController) GetUserBalance(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"balance": balance})
 }
 
+// @summary Create user notification preferences
+// @description Create user notification preferences
+// @tags users
+// @accept json
+// @produce json
+// @param user body UserNotificationPreferences true "UserNotificationPreferences object"
+// @success 201 {object} UserNotificationPreferences
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /users/notification-preferences [post]
 func (c *UserController) CreateUserNotificationPreferences(ctx *gin.Context) {
 	var userNotificationPreferences models.Preferenciasdenotificacao
 	if err := ctx.ShouldBindJSON(&userNotificationPreferences); err != nil {
@@ -157,6 +227,18 @@ func (c *UserController) CreateUserNotificationPreferences(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, userNotificationPreferences)
 }
 
+// @summary Update user notification preferences
+// @description Update user notification preferences
+// @tags users
+// @accept json
+// @produce json
+// @param id path int true "User ID"
+// @param user body UserNotificationPreferences true "UserNotificationPreferences object"
+// @success 200 {object} UserNotificationPreferences
+// @failure 400 {object} Error
+// @failure 404 {object} Error
+// @failure 500 {object} Error
+// @router /users/notification-preferences/{id} [put]
 func (c *UserController) UpdateUserNotificationPreferences(ctx *gin.Context) {
 	userIDStr := ctx.Param("id")
 	userID, err := strconv.Atoi(userIDStr)
