@@ -157,6 +157,15 @@ func (c *UserController) DeleteUser(ctx *gin.Context) {
 	ctx.Status(http.StatusNoContent)
 }
 
+// @summary Get All Users
+// @description Get all users
+// @tags users
+// @accept json
+// @produce json
+// @success 200 {object} Balance
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /api/v1/users [get]
 func (c *UserController) ListUsers(ctx *gin.Context) {
 	users, err := c.userService.GetUsers(ctx)
 	if err != nil {
