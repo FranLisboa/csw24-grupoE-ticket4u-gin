@@ -18,6 +18,22 @@ func NewTransactionController(transactionService *services.TransactionService) *
 	return &TransactionController{transactionService: transactionService}
 }
 
+type Error struct {
+	Message string `json:"message"`
+}
+
+type Transaction = models.Transacao
+
+// @summary Purchase a ticket
+// @description Purchase a ticket
+// @tags transactions
+// @accept json
+// @produce json
+// @param transaction body Transaction true "Transaction object"
+// @success 201 {object} Transaction
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /transaction [post]
 func (c *TransactionController) PurchaseTicket(ctx *gin.Context) {
 	var purchaseRequest struct {
 		TicketID     int           `json:"ticket_id"`
@@ -44,6 +60,16 @@ func (c *TransactionController) PurchaseTicket(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, transaction)
 }
 
+// @summary Request refund
+// @description Request refund
+// @tags transactions
+// @accept json
+// @produce json
+// @param id path int true "Transaction ID"
+// @success 200
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /transaction/{id}/refund [put]
 func (c *TransactionController) RequestRefund(ctx *gin.Context) {
 	transactionIDStr := ctx.Param("id")
 	transactionID, err := strconv.Atoi(transactionIDStr)
