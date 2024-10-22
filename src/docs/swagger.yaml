@@ -1,0 +1,824 @@
+definitions:
+  const_application_api_controllers_feedback.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  const_application_api_controllers_ticket.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  const_application_api_controllers_transaction.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  const_application_api_controllers_user.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  const_core_services_transaction.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  controllers.Avaliacao:
+    properties:
+      avaliacaoid:
+        type: integer
+      comentario:
+        $ref: '#/definitions/null.String'
+      compradorid:
+        type: integer
+      data:
+        type: string
+      nota:
+        type: integer
+      transacaoid:
+        type: integer
+      vendedorid:
+        type: integer
+    type: object
+  controllers.Balance:
+    properties:
+      balance:
+        type: number
+    type: object
+  controllers.Evento:
+    properties:
+      dataehora:
+        type: string
+      eventoid:
+        type: integer
+      localizacao:
+        $ref: '#/definitions/null.String'
+      nomedoevento:
+        type: string
+      tenantid:
+        type: integer
+      tipo:
+        $ref: '#/definitions/null.String'
+    type: object
+  controllers.Ticket:
+    properties:
+      codigounicodeverificacao:
+        type: string
+      eventoid:
+        type: integer
+      iddovendedor:
+        type: integer
+      precooriginal:
+        type: number
+      status:
+        type: string
+      tenantid:
+        type: integer
+      ticketid:
+        type: integer
+      usado:
+        $ref: '#/definitions/null.Bool'
+    type: object
+  controllers.Transaction:
+    properties:
+      datadatransacao:
+        type: string
+      iddocomprador:
+        type: integer
+      iddoticket:
+        type: integer
+      precodevenda:
+        type: number
+      statusdatransacao:
+        type: string
+      tenantid:
+        type: integer
+      transacaoid:
+        type: integer
+    type: object
+  controllers.User:
+    properties:
+      email:
+        type: string
+      nome:
+        type: string
+      tenantid:
+        type: integer
+      userid:
+        type: integer
+    type: object
+  controllers.UserNotificationPreferences:
+    properties:
+      preferenciasid:
+        type: integer
+      receberemails:
+        $ref: '#/definitions/null.Bool'
+      userid:
+        type: integer
+    type: object
+  null.Bool:
+    properties:
+      bool:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
+  null.String:
+    properties:
+      string:
+        type: string
+      valid:
+        type: boolean
+    type: object
+  services.Transaction:
+    properties:
+      datadatransacao:
+        type: string
+      iddocomprador:
+        type: integer
+      iddoticket:
+        type: integer
+      precodevenda:
+        type: number
+      statusdatransacao:
+        type: string
+      tenantid:
+        type: integer
+      transacaoid:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /event:
+    get:
+      consumes:
+      - application/json
+      description: Get all events
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Evento'
+            type: array
+      summary: Get all events
+      tags:
+      - event
+    post:
+      consumes:
+      - application/json
+      description: Create a new event
+      parameters:
+      - description: Evento object
+        in: body
+        name: ctx
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Evento'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.Evento'
+      summary: Create a new event
+      tags:
+      - event
+  /event/{id}:
+    delete:
+      description: Delete event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+      summary: Delete event
+      tags:
+      - event
+    get:
+      consumes:
+      - application/json
+      description: Get event by ID
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Evento'
+      summary: Get event by ID
+      tags:
+      - event
+    put:
+      consumes:
+      - application/json
+      description: Update event
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Event object
+        in: body
+        name: ctx
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Evento'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Evento'
+      summary: Update event
+      tags:
+      - event
+  /event/tenant/{tenantID}:
+    get:
+      consumes:
+      - application/json
+      description: Get events by tenant
+      parameters:
+      - description: Tenant ID
+        in: path
+        name: tenantID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Evento'
+            type: array
+      summary: Get events by tenant
+      tags:
+      - event
+  /events/{eventID}/tickets:
+    get:
+      consumes:
+      - application/json
+      description: Get available tickets by event
+      parameters:
+      - description: Event ID
+        in: path
+        name: eventID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Ticket'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+      summary: Get available tickets by event
+      tags:
+      - tickets
+  /feedback:
+    post:
+      consumes:
+      - application/json
+      description: Create a new feedback
+      parameters:
+      - description: Avaliacao object
+        in: body
+        name: avaliacao
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Avaliacao'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.Avaliacao'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_feedback.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_feedback.Error'
+      summary: Create a new feedback
+      tags:
+      - feedback
+  /tickets:
+    post:
+      consumes:
+      - application/json
+      description: Create a new ticket
+      parameters:
+      - description: Ticket object
+        in: body
+        name: ticket
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Ticket'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.Ticket'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+      summary: Create a new ticket
+      tags:
+      - tickets
+  /tickets/{ticketID}/use:
+    put:
+      consumes:
+      - application/json
+      description: Mark ticket as used
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: ticketID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+      summary: Mark ticket as used
+      tags:
+      - tickets
+  /tickets/authenticate:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate ticket
+      parameters:
+      - description: Ticket ID
+        in: path
+        name: ticketID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+      summary: Authenticate ticket
+      tags:
+      - tickets
+  /transaction:
+    post:
+      consumes:
+      - application/json
+      description: Purchase a ticket
+      parameters:
+      - description: Transaction object
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Transaction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.Transaction'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_transaction.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_transaction.Error'
+      summary: Purchase a ticket
+      tags:
+      - transactions
+  /transaction/{id}/refund:
+    put:
+      consumes:
+      - application/json
+      description: Request refund
+      parameters:
+      - description: Transaction ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_transaction.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_transaction.Error'
+      summary: Request refund
+      tags:
+      - transactions
+  /transactions:
+    post:
+      consumes:
+      - application/json
+      description: Purchase a ticket
+      parameters:
+      - description: Transaction object
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/services.Transaction'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/services.Transaction'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_core_services_transaction.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_core_services_transaction.Error'
+      summary: Purchase a ticket
+      tags:
+      - transactions
+  /transactions/{id}/refund:
+    put:
+      consumes:
+      - application/json
+      description: Request a refund
+      parameters:
+      - description: Transaction ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.Transaction'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_core_services_transaction.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_core_services_transaction.Error'
+      summary: Request a refund
+      tags:
+      - transactions
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Create a new user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Delete user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get user by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Get user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Update user
+      tags:
+      - users
+  /users/{id}/balance:
+    get:
+      consumes:
+      - application/json
+      description: Get user balance
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Balance'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Get user balance
+      tags:
+      - users
+  /users/notification-preferences:
+    post:
+      consumes:
+      - application/json
+      description: Create user notification preferences
+      parameters:
+      - description: UserNotificationPreferences object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserNotificationPreferences'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.UserNotificationPreferences'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Create user notification preferences
+      tags:
+      - users
+  /users/notification-preferences/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update user notification preferences
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: UserNotificationPreferences object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserNotificationPreferences'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.UserNotificationPreferences'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_user.Error'
+      summary: Update user notification preferences
+      tags:
+      - users
+  /users/tickets/{userID}:
+    get:
+      consumes:
+      - application/json
+      description: Get tickets by seller
+      parameters:
+      - description: User ID
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Ticket'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_ticket.Error'
+      summary: Get tickets by seller
+      tags:
+      - tickets
+  /vendedor/{vendedorID}/feedback:
+    get:
+      consumes:
+      - application/json
+      description: Get feedbacks by seller
+      parameters:
+      - description: Seller ID
+        in: path
+        name: vendedorID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Avaliacao'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_feedback.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/const_application_api_controllers_feedback.Error'
+      summary: Get feedbacks by seller
+      tags:
+      - feedback
+swagger: "2.0"

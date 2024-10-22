@@ -10,14 +10,29 @@ import (
 	"github.com/google/uuid"
 )
 
+type Ticket = models.Ticket
 type TicketController struct {
 	ticketService *services.TicketService
+}
+type Error struct {
+	Message string `json:"message"`
 }
 
 func NewTicketController(ticketService *services.TicketService) *TicketController {
 	return &TicketController{ticketService: ticketService}
 }
 
+// CreateTicket godoc
+// @Summary Create a new ticket
+// @Description Create a new ticket
+// @Tags tickets
+// @Accept json
+// @Produce json
+// @Param ticket body Ticket true "Ticket object"
+// @Success 201 {object} Ticket
+// @Failure 400 {object} Error
+// @Failure 500 {object} Error
+// @Router /tickets [post]
 func (c *TicketController) CreateTicket(ctx *gin.Context) {
 	var ticket models.Ticket
 	if err := ctx.ShouldBindJSON(&ticket); err != nil {
@@ -25,7 +40,6 @@ func (c *TicketController) CreateTicket(ctx *gin.Context) {
 		return
 	}
 
-	// assume que o id do vendedor vem do body da requisição
 	if ticket.Iddovendedor == 0 {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Seller ID is required"})
 		return
@@ -43,6 +57,16 @@ func (c *TicketController) CreateTicket(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, ticket)
 }
 
+// @summary Get available tickets by event
+// @description Get available tickets by event
+// @tags tickets
+// @accept json
+// @produce json
+// @param eventID path int true "Event ID"
+// @success 200 {array} Ticket
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /events/{eventID}/tickets [get]
 func (c *TicketController) GetAvailableTicketsByEvent(ctx *gin.Context) {
 	eventIDStr := ctx.Param("eventID")
 	eventID, err := strconv.Atoi(eventIDStr)
@@ -60,6 +84,16 @@ func (c *TicketController) GetAvailableTicketsByEvent(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, tickets)
 }
 
+// @summary Get tickets by seller
+// @description Get tickets by seller
+// @tags tickets
+// @accept json
+// @produce json
+// @param userID path int true "User ID"
+// @success 200 {array} Ticket
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /users/tickets/{userID} [get]
 func (c *TicketController) GetTicketsBySeller(ctx *gin.Context) {
 	sellerIDStr := ctx.Param("userID")
 	sellerID, err := strconv.Atoi(sellerIDStr)
@@ -77,6 +111,16 @@ func (c *TicketController) GetTicketsBySeller(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, tickets)
 }
 
+// @summary Mark ticket as used
+// @description Mark ticket as used
+// @tags tickets
+// @accept json
+// @produce json
+// @param ticketID path int true "Ticket ID"
+// @success 200
+// @failure 400 {object} Error
+// @failure 500 {object} Error
+// @router /tickets/{ticketID}/use [put]
 func (c *TicketController) MarkTicketAsUsed(ctx *gin.Context) {
 	ticketIDStr := ctx.Param("ticketID")
 	ticketID, err := strconv.Atoi(ticketIDStr)
@@ -93,6 +137,18 @@ func (c *TicketController) MarkTicketAsUsed(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
+// @summary Authenticate ticket
+// @description Authenticate ticket
+// @tags tickets
+// @accept json
+// @produce json
+// @param ticketID path int true "Ticket ID"
+// @success 200
+// @failure 400 {object} Error
+// @failure 404 {object} Error
+// @failure 409 {object} Error
+// @failure 500 {object} Error
+// @router /tickets/authenticate [post]
 func (c *TicketController) AuthenticateTicket(ctx *gin.Context) {
 	var request struct {
 		CodigoUnicoDeVerificacao string `json:"codigo_unico_de_verificacao"`
