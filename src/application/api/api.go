@@ -19,7 +19,11 @@ import (
 	"database/sql"
 	"net/http"
 
+	_ "const/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Setup(router *gin.Engine, db *sql.DB) {
@@ -43,5 +47,7 @@ func Setup(router *gin.Engine, db *sql.DB) {
 	router.GET("/ping", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "pong"})
 	})
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }
