@@ -1,7 +1,7 @@
-insert into Tenant (TenantID, Nome, InformacoesDeContato) values (1, 'PUCRS', 'Faculdade');
-insert into Tenant (TenantID, Nome, InformacoesDeContato) values (2, 'UFRGS', 'Faculdade');
-insert into Tenant (TenantID, Nome, InformacoesDeContato) values (3, 'Fanta', 'Empresa');
-insert into Tenant (TenantID, Nome, InformacoesDeContato) values (4, 'Muller', 'Empresa');
+insert into Tenant (TenantID, Nome, InformacoesDeContato) values (1, 'PUCRS', 'pucrs@pucrs.com');
+insert into Tenant (TenantID, Nome, InformacoesDeContato) values (2, 'UFRGS', 'ufrgs@ufrgs.com');
+insert into Tenant (TenantID, Nome, InformacoesDeContato) values (3, 'Fanta', 'fanta@fanta.com');
+insert into Tenant (TenantID, Nome, InformacoesDeContato) values (4, 'Muller', 'muller@muller.com');
 
 INSERT INTO Tenant (TenantID, Nome, InformacoesDeContato) VALUES
     (5, 'Empresa Alpha', 'contato@alpha.com'),
@@ -47,11 +47,11 @@ INSERT INTO PreferenciasDeNotificacao (PreferenciasID, UserID, ReceberEmails) VA
     (1, 1, TRUE),
     (2, 2, FALSE),
     (3, 3, TRUE),
-    (4, 4, FALSE);
+    (4, 4, FALSE),
     (5, 5, TRUE),
     (6, 6, FALSE),
     (7, 7, TRUE),
-    (8, 8, TRUE);
+    (8, 8, TRUE),
     (9, 9, TRUE),
     (10, 10, FALSE),
     (11, 11, FALSE),
