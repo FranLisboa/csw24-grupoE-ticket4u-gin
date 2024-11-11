@@ -17,7 +17,7 @@ jobs:
           go-version: '1.21'
           
       - name: Build Go project
-        run: go build -v ./...
+        run: GOOS=linux GOARCH=amd64 go build -o bootstrap src\main.go
         
       - name: Install zip tool
         uses: montudor/action-zip@v1
