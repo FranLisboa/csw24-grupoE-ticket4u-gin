@@ -20,7 +20,7 @@ jobs:
         run: |
           go mod init csw24-grupoE-ticket4u-gin
           go mod tidy
-          working-directory: .
+        working-directory: .
 
       - name: Build Go project
         run: GOOS=linux GOARCH=amd64 go build -o bootstrap src/main.go
