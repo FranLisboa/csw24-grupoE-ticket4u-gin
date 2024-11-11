@@ -25,3 +25,6 @@ func NewApp(db *sql.DB) *App {
     Setup(app.Router, app.DB)
     return app
 }
+
+
+//teste
