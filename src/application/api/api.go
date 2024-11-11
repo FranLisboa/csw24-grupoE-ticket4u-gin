@@ -21,12 +21,17 @@ import (
 
 	_ "const/docs"
 
+	"github.com/aws/aws-lambda-go/lambda"
+	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+var ginLambda *ginadapter.GinLambda
+
 func Setup(router *gin.Engine, db *sql.DB) {
+
 	userService := user.NewService(db)
 	eventService := event.NewEventoService(db)
 	tenantService := tenant.NewTenantService(db)
@@ -49,5 +54,18 @@ func Setup(router *gin.Engine, db *sql.DB) {
 	})
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+}
 
+func Init(db *sql.DB) {
+	router := gin.Default()
+
+	Setup(router, db)
+
+	ginLambda = ginadapter.New(router)
+
+	lambda.Start(Handler)
+}
+
+func Handler(req map[string]interface{}) (interface{}, error) {
+	return ginLambda.Proxy(req)
 }
