@@ -15,9 +15,16 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
-          
+
+      - name: Initialize Go Module
+        run: |
+        go mod init csw24-grupoE-ticket4u-gin
+        go mod tidy
+        working-directory: .
+
       - name: Build Go project
-        run: GOOS=linux GOARCH=amd64 go build -o bootstrap src\main.go
+        run: GOOS=linux GOARCH=amd64 go build -o bootstrap src/main.go
+        working-directory: .
         
       - name: Install zip tool
         uses: montudor/action-zip@v1
