@@ -22,7 +22,7 @@ jobs:
           go mod tidy
 
       - name: Build Go project
-        run: GOOS=linux GOARCH=amd64 go build -o bootstrap src/main.go
+        run: GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
         working-directory: ./src
         
       - name: Install zip tool
