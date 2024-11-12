@@ -23,6 +23,7 @@ jobs:
 
       - name: Build Go project
         run: GOOS=linux GOARCH=amd64 go build -o bootstrap src/main.go
+        working-directory: ./src
         
       - name: Install zip tool
         uses: montudor/action-zip@v1
