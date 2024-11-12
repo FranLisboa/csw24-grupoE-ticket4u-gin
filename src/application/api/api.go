@@ -21,6 +21,7 @@ import (
 
 	_ "const/docs"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
@@ -66,6 +67,6 @@ func Init(db *sql.DB) {
 	lambda.Start(Handler)
 }
 
-func Handler(req map[string]interface{}) (interface{}, error) {
-	return ginLambda.Proxy(req)
+func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+    return ginLambda.Proxy(req)
 }

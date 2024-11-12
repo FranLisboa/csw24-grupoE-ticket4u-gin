@@ -1,14 +1,7 @@
 package api
 
 import (
-    "context"
     "database/sql"
-    "errors"
-    "log"
-    "os"
-    "os/signal"
-    "syscall"
-    "time"
     "github.com/gin-gonic/gin"
 )
 
