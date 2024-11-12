@@ -31,6 +31,12 @@ jobs:
       - name: Create Zip file for Lambda function
         run: zip -r code.zip .
         
+      - name: Upload project zip as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: csw24-grupoE-ticket4u-gin
+          path: code.zip
+     
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
