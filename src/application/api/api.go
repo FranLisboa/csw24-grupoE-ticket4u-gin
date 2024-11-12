@@ -63,10 +63,12 @@ func Init(db *sql.DB) {
 	Setup(router, db)
 
 	ginLambda = ginadapter.New(router)
-
-	lambda.Start(Handler)
 }
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return ginLambda.Proxy(req)
+	return ginLambda.Proxy(req)
+}
+
+func main() {
+	lambda.Start(Handler)
 }
