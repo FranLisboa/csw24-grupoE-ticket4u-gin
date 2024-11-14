@@ -20,7 +20,6 @@ jobs:
         run: |
           go mod init csw24-grupoE-ticket4u-gin
           go mod tidy
-        working-directory: ./src
 
       - name: Build Go project
         run: |
