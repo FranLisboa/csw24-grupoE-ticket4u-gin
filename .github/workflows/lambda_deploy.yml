@@ -20,23 +20,17 @@ jobs:
         run: |
           go mod init csw24-grupoE-ticket4u-gin
           go mod tidy
+        working-directory: ./src
 
       - name: Build Go project
-        run: GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
+        run: |
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bootstrap
         working-directory: ./src
         
-      - name: Install zip tool
-        uses: montudor/action-zip@v1
-        
       - name: Create Zip file for Lambda function
-        run: zip -r code.zip .
+        run: zip -j function.zip bootstrap
+        working-directory: ./src
         
-      - name: Upload project zip as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: csw24-grupoE-ticket4u-gin
-          path: code.zip
-     
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -49,4 +43,4 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name arn:aws:lambda:us-east-1:948675409837:function:csw24-grupoE-ticket4u-gin-lambda \
-            --zip-file fileb://code.zip
+            --zip-file fileb://src/function.zip
