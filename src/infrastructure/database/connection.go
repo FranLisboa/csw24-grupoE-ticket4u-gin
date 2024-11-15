@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"time"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -27,9 +26,6 @@ func StartDB() *sql.DB {
 		log.Fatalf("Erro ao abrir a conexão com o banco de dados: %v", err)
 	}
 
-	db.SetMaxOpenConns(25)
-	db.SetMaxIdleConns(25)
-	db.SetConnMaxLifetime(5 * time.Minute)
 
 	err = db.Ping()
 	if err != nil {
