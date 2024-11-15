@@ -11,7 +11,6 @@ import (
 
 func StartDB() *sql.DB {
  	//password :=  os.Getenv("DB_PASSWORD")
-	connStr := "host=postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com user=postgres password=xyV4YBeY8Qz2FuZ dbname=postgres sslmode=disable"
 
 	const (
 		host     = "postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com"
@@ -22,7 +21,7 @@ func StartDB() *sql.DB {
 
 	//var psqlconn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
-	db, err := sql.Open("postgres",connStr)
+	db, err := sql.Open("postgres", "postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres")
 	if err != nil {
 		log.Fatalf("Erro ao abrir a conexão com o banco de dados: %v", err)
 	}
