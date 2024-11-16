@@ -39,7 +39,7 @@ jobs:
           aws-region: us-east-1  
 
       - name: Install Serverless Framework
-        run: npm -g install serverless@4
+        run: npm -g install serverless@3
         working-directory: ./src
 
       - name: Install Serverless Offline
