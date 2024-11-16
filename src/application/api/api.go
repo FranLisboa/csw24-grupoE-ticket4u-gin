@@ -2,7 +2,7 @@ package api
 
 import (
 	"log"
-	
+
 	eventController "const/application/api/controllers/event"
 	feedbackController "const/application/api/controllers/feedback"
 	tenantController "const/application/api/controllers/tenant"
@@ -61,15 +61,6 @@ func Setup(router *gin.Engine, db *sql.DB) {
 
 func Init(db *sql.DB) {
 	router := gin.Default()
-
-	    // Strip the /lambda prefix from the path
-	router.Use(func(c *gin.Context) {
-		path := c.Request.URL.Path
-		if len(path) >= 7 && path[:7] == "/lambda" {
-			c.Request.URL.Path = path[7:]
-		}
-		c.Next()
-	})
 
 	Setup(router, db)
 
