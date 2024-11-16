@@ -30,25 +30,12 @@ jobs:
         run: zip -j function.zip bootstrap
         working-directory: ./src
         
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1  
-
-      - name: Install Serverless Framework
-        run: npm -g install serverless@4
-
-      - name: Install Serverless Offline
-        run: serverless plugin install -n serverless-offline
       
       - name: Serverless Deploy
+        uses: serverless/github-action@v3
+        with:
+          args: deploy
         env:
-          DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
-          AWS_ROLE: arn:aws:iam::948675409837:role/LabRole
-        run: |
-          echo "DATABASE_URL=postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" >> .env
-          echo "AWS_ROLE=arn:aws:iam::948675409837:role/LabRole" >> .env
-          serverless deploy
+         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
