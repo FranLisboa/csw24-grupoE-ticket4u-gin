@@ -24,4 +24,4 @@ functions:
           path: /api/v1/{proxy+}
       - httpApi:
           method: GET
-          path: /api/v1/events
+          path: /api/v1/event

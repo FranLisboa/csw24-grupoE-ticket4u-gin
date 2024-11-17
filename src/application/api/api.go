@@ -1,8 +1,6 @@
 package api
 
 import (
-	"log"
-
 	eventController "const/application/api/controllers/event"
 	feedbackController "const/application/api/controllers/feedback"
 	tenantController "const/application/api/controllers/tenant"
@@ -62,6 +60,12 @@ func Setup(router *gin.Engine, db *sql.DB) {
 func Init(db *sql.DB) {
 	router := gin.Default()
 
+	router.GET("/api/v1/health", func(c *gin.Context) {
+        c.JSON(200, gin.H{
+            "status": "ok",
+        })
+    })
+
 	Setup(router, db)
 
 	ginLambda = ginadapter.New(router)
@@ -69,9 +73,7 @@ func Init(db *sql.DB) {
 }
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Printf("Received request: %+v", req)
-
-	return ginLambda.Proxy(req)
+    return ginLambda.Proxy(req)
 }
 
 func main() {
