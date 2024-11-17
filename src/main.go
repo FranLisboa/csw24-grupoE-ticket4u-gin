@@ -3,10 +3,7 @@ package main
 import (
 	"const/infrastructure/database"
     setup "const/application/api/setup"
-	"log"
-	
-	"context"
-	
+	"log"	
 
 	_ "const/docs"
 
@@ -19,26 +16,24 @@ import (
 var ginLambda *ginadapter.GinLambda
 
 func main() {
-	log.Println("Starting application on AWS Lambda...")
-	lambda.Start(
-		events.APIGatewayProxyResponse{
-			StatusCode: 200,
-			Headers: map[string]string{
-				"Content-Type":                 "application/json",
-				"Access-Control-Allow-Origin":  "*",
-				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-			},
-			MultiValueHeaders: map[string][]string{
-				"Set-Cookie": {"session=abc123; Path=/; HttpOnly", "user=john_doe; Path=/"},
-			},
-			Body: `{"message": "Hello, World!", "data": {"id": 1, "name": "Example"}}`,
-			IsBase64Encoded: false,
-		},
-	)
+    log.Println("Starting application on AWS Lambda...")
+    lambda.Start(Handler)
 }
 
-func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return ginLambda.ProxyWithContext(ctx,req)
+func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+    return events.APIGatewayProxyResponse{
+        StatusCode: 200,
+        Headers: map[string]string{
+            "Content-Type":                 "application/json",
+            "Access-Control-Allow-Origin":  "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        },
+        MultiValueHeaders: map[string][]string{
+            "Set-Cookie": {"session=abc123; Path=/; HttpOnly", "user=john_doe; Path=/"},
+        },
+        Body: `{"message": "Hello, World!", "data": {"id": 1, "name": "Example"}}`,
+        IsBase64Encoded: false,
+    }, nil
 }
 
 func init() {
