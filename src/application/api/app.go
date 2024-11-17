@@ -3,6 +3,7 @@ package api
 import (
     "database/sql"
     "github.com/gin-gonic/gin"
+    setup "const/application/api/setup"
 )
 
 type App struct {
@@ -15,7 +16,7 @@ func NewApp(db *sql.DB) *App {
         DB:     db,
         Router: gin.Default(),
     }
-    Setup(app.Router, app.DB)
+    setup.Setup(app.Router, app.DB)
     return app
 }
 

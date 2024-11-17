@@ -1,7 +1,10 @@
-package api
+package setup
 
 import (
-	eventController "const/application/api/controllers/event"
+    "database/sql"
+    "github.com/gin-gonic/gin"
+
+    eventController "const/application/api/controllers/event"
 	feedbackController "const/application/api/controllers/feedback"
 	tenantController "const/application/api/controllers/tenant"
 	ticketController "const/application/api/controllers/ticket"
@@ -16,20 +19,10 @@ import (
 	transaction "const/core/services/transaction"
 	user "const/core/services/user"
 
-	"database/sql"
 	"net/http"
-
-	_ "const/docs"
-
-	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
-	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
-	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-var ginLambda *ginadapter.GinLambda
 
 func Setup(router *gin.Engine, db *sql.DB) {
 
@@ -55,28 +48,4 @@ func Setup(router *gin.Engine, db *sql.DB) {
 	})
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-}
-
-func Init(db *sql.DB) {
-	router := gin.Default()
-
-	router.GET("/api/v1/health", func(c *gin.Context) {
-        c.JSON(200, gin.H{
-            "status": "ok",
-        })
-    })
-
-	Setup(router, db)
-
-	ginLambda = ginadapter.New(router)
-	main()
-}
-
-func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return ginLambda.Proxy(req)
-}
-
-func main() {
-
-	lambda.Start(Handler)
 }
