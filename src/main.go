@@ -19,7 +19,7 @@ import (
 var ginLambda *ginadapter.GinLambda
 var db *sql.DB
 
-func fran() {
+func init() {
 	router := gin.Default()
 
 	db := database.StartDB()
@@ -63,7 +63,6 @@ func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 }
 
 func main() {
-	fran()
 	log.Println("Starting application on AWS Lambda...")
 
 	lambda.Start(Handler)
