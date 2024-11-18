@@ -34,7 +34,19 @@ func init() {
 
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return ginLambda.Proxy(req)
+    return events.APIGatewayProxyResponse{
+        StatusCode: 200,
+        Headers: map[string]string{
+            "Content-Type":                 "application/json",
+            "Access-Control-Allow-Origin":  "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        },
+        MultiValueHeaders: map[string][]string{
+            "Set-Cookie": {"session=abc123; Path=/; HttpOnly", "user=john_doe; Path=/"},
+        },
+        Body: `{"message": "Hello, World!", "data": {"id": 1, "name": "Example"}}`,
+        IsBase64Encoded: false,
+    }, nil
 }
 
 func main() {
