@@ -49,8 +49,8 @@ func checkDBConnection() error {
 }
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	david()
 	if err := checkDBConnection(); err != nil {
+		david()
 		log.Printf("Database connection error: %v. Attempting to reconnect...", err)
 		_, err := sql.Open("postgres", "postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres")
 		if err != nil {
