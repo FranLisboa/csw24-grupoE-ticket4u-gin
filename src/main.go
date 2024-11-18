@@ -2,8 +2,8 @@ package main
 
 import (
 	//"const/infrastructure/database"
-    //setup "const/application/api/setup"
-	"log"	
+	//setup "const/application/api/setup"
+	"log"
 
 	_ "const/docs"
 
@@ -22,36 +22,45 @@ func init() {
 	//defer db.Close()
 
 	router.GET("/api/v1/health", func(c *gin.Context) {
-        c.JSON(200, gin.H{
-            "status": "ok",
-        })
-    })
+		c.JSON(200, gin.H{
+			"status": "ok",
+		})
+	})
 
 	//setup.Setup(router, db)
 
 	ginLambda = ginadapter.New(router)
 }
 
-
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return events.APIGatewayProxyResponse{
-        StatusCode: 200,
-        Headers: map[string]string{
-            "Content-Type":                 "application/json",
-            "Access-Control-Allow-Origin":  "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        },
-        MultiValueHeaders: map[string][]string{
-            "Set-Cookie": {"session=abc123; Path=/; HttpOnly", "user=john_doe; Path=/"},
-        },
-        Body: `{"message": "Hello, World!", "data": {"id": 1, "name": "Example"}}`,
-        IsBase64Encoded: false,
-    }, nil
+	if req.Path == "/hello" {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 200,
+			Headers: map[string]string{
+				"Content-Type":                 "application/json",
+				"Access-Control-Allow-Origin":  "*",
+				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+			},
+			MultiValueHeaders: map[string][]string{
+				"Set-Cookie": {"session=abc123; Path=/; HttpOnly", "user=john_doe; Path=/"},
+			},
+			Body:            `{"message": "Hello, World!", "data": {"id": 1, "name": "Example"}}`,
+			IsBase64Encoded: false,
+		}, nil
+	}
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: 404,
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+		},
+		Body:            `{"message": "Not Found"}`,
+		IsBase64Encoded: false,
+	}, nil
 }
 
 func main() {
-    log.Println("Starting application on AWS Lambda...")
+	log.Println("Starting application on AWS Lambda...")
 
-    lambda.Start(Handler)
+	lambda.Start(Handler)
 }
-
