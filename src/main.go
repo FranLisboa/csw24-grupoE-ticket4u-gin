@@ -15,15 +15,6 @@ import (
 
 var ginLambda *ginadapter.GinLambda
 
-func main() {
-    log.Println("Starting application on AWS Lambda...")
-    lambda.Start(Handler)
-}
-
-func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    return ginLambda.Proxy(req)
-}
-
 func init() {
 	router := gin.Default()
 
@@ -42,4 +33,13 @@ func init() {
 }
 
 
+func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+    return ginLambda.Proxy(req)
+}
+
+func main() {
+    log.Println("Starting application on AWS Lambda...")
+
+    lambda.Start(Handler)
+}
 
