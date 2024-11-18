@@ -4,6 +4,7 @@ import (
 	setup "const/application/api/setup"
 	"const/infrastructure/database"
 	"log"
+	"time"
 
 	_ "const/docs"
 
@@ -26,6 +27,10 @@ func fran() {
 			"status": "ok",
 		})
 	})
+
+	db.SetMaxOpenConns(5)
+	db.SetMaxIdleConns(5)
+	db.SetConnMaxLifetime(5 * time.Minute)
 
 	setup.Setup(router, db)
 
