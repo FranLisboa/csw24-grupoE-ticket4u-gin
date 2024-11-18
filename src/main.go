@@ -33,6 +33,7 @@ func init() {
 }
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+    log.Println(req)
 	if req.Path == "/hello" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 200,
@@ -54,7 +55,7 @@ func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 		Headers: map[string]string{
 			"Content-Type": "application/json",
 		},
-		Body:            `{"message": "Not Found"}`,
+		Body:            `{"message": "Not Found asijfiausngfouadsgf"}`,
 		IsBase64Encoded: false,
 	}, nil
 }
