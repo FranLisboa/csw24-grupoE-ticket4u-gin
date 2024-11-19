@@ -44,9 +44,6 @@ resources:
         PubliclyAccessible: true
         MultiAZ: false
         BackupRetentionPeriod: 7
-        VPCSecurityGroups:
-          - !Ref MyRDSSecurityGroup
-        DeletionPolicy: Snapshot # Keep a snapshot when deleting the RDS instance
 
     # Security Group for RDS Instance
     MyRDSSecurityGroup:
