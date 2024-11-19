@@ -33,6 +33,10 @@ var ginLambda *ginadapter.GinLambda
 
 func Setup(router *gin.Engine, db *sql.DB) {
 
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "Base route"})
+	})
+
 	userService := user.NewService(db)
 	eventService := event.NewEventoService(db)
 	tenantService := tenant.NewTenantService(db)
@@ -58,12 +62,8 @@ func Setup(router *gin.Engine, db *sql.DB) {
 }
 
 func Init(db *sql.DB) {
-	
-	router := gin.Default()
 
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "Base route"})
-	})
+	router := gin.Default()
 
 	Setup(router, db)
 
