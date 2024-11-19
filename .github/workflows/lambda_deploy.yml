@@ -24,11 +24,9 @@ jobs:
       - name: Build Go project
         run: |
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bootstrap
-        working-directory: ./src
         
       - name: Create Zip file for Lambda function
         run: zip -j function.zip bootstrap
-        working-directory: ./src
         
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
