@@ -1,0 +1,24 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: franciscolisboa
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: provided.al2023
+  stage: api
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::948675409837:role/LabRole
+  environment:
+    DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
+
+functions:
+  tickets:
+    handler: bootstrap
+    events:
+      - httpApi:
+          method: any
+          path: /{proxy+}

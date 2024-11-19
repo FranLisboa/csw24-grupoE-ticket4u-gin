@@ -2,7 +2,7 @@ name: Deploy Lambda Function and Infrastructure
 
 on:
   push:
-    branches: [ main ]
+    branches: [ serverless ]
 
 jobs:
   deploy:
@@ -38,8 +38,20 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1  
 
-      - name: Update Lambda Function
+      - name: Install Serverless Framework
+        run: npm -g install serverless@3
+        working-directory: ./src
+
+      - name: Install Serverless Offline
+        run: serverless plugin install -n serverless-offline
+        working-directory: ./src
+
+      - name: Serverless Deploy
+        env:
+          DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
+          AWS_ROLE: arn:aws:iam::948675409837:role/LabRole
         run: |
-          aws lambda update-function-code \
-            --function-name arn:aws:lambda:us-east-1:948675409837:function:csw24-grupoE-ticket4u-gin-lambda \
-            --zip-file fileb://src/function.zip
+          echo "DATABASE_URL=postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" >> .env
+          echo "AWS_ROLE=arn:aws:iam::948675409837:role/LabRole" >> .env
+          serverless deploy
+        working-directory: ./src
