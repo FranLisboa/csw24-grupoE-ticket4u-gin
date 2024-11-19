@@ -8,7 +8,7 @@ plugins:
 provider:
   name: aws
   runtime: provided.al2023
-  stage: api
+  stage: dev
   region: us-east-1
   iam:
     role: arn:aws:iam::948675409837:role/LabRole
