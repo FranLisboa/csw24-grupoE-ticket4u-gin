@@ -38,7 +38,7 @@ resources:
         Engine: postgres
         EngineVersion: 13.3
         MasterUsername: postgres
-        MasterUserPassword: !Ref DBPassword # Password is stored securely
+        MasterUserPassword: postgres 
         DBName: postgres
         AllocatedStorage: 20
         PubliclyAccessible: true
