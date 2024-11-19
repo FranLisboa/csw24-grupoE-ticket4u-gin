@@ -4,21 +4,14 @@ import (
 	"database/sql"
 	//"fmt"
 	"log"
-	//"os"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
 func StartDB() *sql.DB {
 
-	const (
-		host     = "postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com"
-		port     = 5432
-		user     = "postgres"
-		dbname   = "postgres"
-	)
-
-	db, err := sql.Open("postgres", "postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres")
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalf("Erro ao abrir a conexão com o banco de dados: %v", err)
 	}

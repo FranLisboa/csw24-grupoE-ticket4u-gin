@@ -10,9 +10,9 @@ provider:
   stage: dev
   region: us-east-1
   iam:
-    role: arn:aws:iam::948675409837:role/LabRole
+    role: ${env:AWS_IAM_ROLE}
   environment:
-    DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
+    DATABASE_URL: ${cf:${self:service}-${self:provider.stage}.DatabaseURL
     # Add other environment variables as needed
 
 functions:
@@ -22,10 +22,6 @@ functions:
       - httpApi:
           method: any
           path: /{proxy+}
-    # Example: Timeout for the function
-    timeout: 30 # in seconds
-    # Memory size for the Lambda function
-    memorySize: 1024 # in MB
 
 resources:
   Resources:
