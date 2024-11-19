@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_IAM_ROLE}
   environment:
-    DATABASE_URL: ${cf:${self:service}-${self:provider.stage}.DatabaseURL
+    DATABASE_URL: ${cf:${self:service}-${self:provider.stage}.DatabaseURL}
     # Add other environment variables as needed
 
 functions:
