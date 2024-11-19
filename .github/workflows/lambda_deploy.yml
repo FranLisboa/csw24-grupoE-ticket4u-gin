@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Go project
         run: |
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bootstrap
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bootstrap src/
         
       - name: Create Zip file for Lambda function
         run: zip -j function.zip bootstrap
