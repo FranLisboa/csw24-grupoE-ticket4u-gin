@@ -58,6 +58,7 @@ func Setup(router *gin.Engine, db *sql.DB) {
 }
 
 func Init(db *sql.DB) {
+	
 	router := gin.Default()
 
 	router.GET("/", func(ctx *gin.Context) {
