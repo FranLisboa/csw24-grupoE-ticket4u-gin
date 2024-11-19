@@ -5,21 +5,23 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "db"
-	port     = 5432
-	user     = "admin"
-	password = "admin"
-	dbname   = "postgres"
-)
-
-var psqlconn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
 func StartDB() *sql.DB {
+ 	password :=  os.Getenv("DB_PASSWORD")
+
+	const (
+		host     = "postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com"
+		port     = 5432
+		user     = "postgres"
+		dbname   = "postgres"
+	)
+
+	var psqlconn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
 	db, err := sql.Open("postgres", psqlconn)
 	if err != nil {
 		log.Fatalf("Erro ao abrir a conexão com o banco de dados: %v", err)
