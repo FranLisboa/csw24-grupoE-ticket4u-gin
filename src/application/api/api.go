@@ -33,7 +33,7 @@ var ginLambda *ginadapter.GinLambda
 
 func Setup(router *gin.Engine, db *sql.DB) {
 
-	router.GET("/", func(ctx *gin.Context) {
+	router.GET("/base", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"message": "Base route"})
 	})
 
