@@ -36,7 +36,7 @@ resources:
         DBInstanceIdentifier: my-postgres-db
         DBInstanceClass: db.t3.micro
         Engine: postgres
-        EngineVersion: 13.3
+        EngineVersion: 16.3
         MasterUsername: postgres
         MasterUserPassword: postgres 
         DBName: postgres
