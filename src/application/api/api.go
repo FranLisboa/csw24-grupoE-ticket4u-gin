@@ -60,6 +60,10 @@ func Setup(router *gin.Engine, db *sql.DB) {
 func Init(db *sql.DB) {
 	router := gin.Default()
 
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"message": "Base route"})
+	})
+
 	Setup(router, db)
 
 	ginLambda = ginadapter.New(router)
