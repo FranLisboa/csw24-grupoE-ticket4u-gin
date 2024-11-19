@@ -52,4 +52,3 @@ jobs:
           echo "DATABASE_URL=postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" >> .env
           echo "AWS_ROLE=arn:aws:iam::948675409837:role/LabRole" >> .env
           serverless deploy
-        working-directory: ./src
