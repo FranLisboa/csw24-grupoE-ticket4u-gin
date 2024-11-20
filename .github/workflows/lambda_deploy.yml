@@ -69,3 +69,4 @@ jobs:
       - name: Run Migrations
         run: |
           migrate -database $DATABASE_URL -path ./src/infrastructure/database/migrations/ up
+          
