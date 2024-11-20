@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_ROLE}
   environment:
-    DATABASE_URL: postgresql://postgres:my-postgres-db@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
+    DATABASE_URL: postgresql://postgres:postgres@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
     # Add other environment variables as needed
 
 functions:
