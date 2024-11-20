@@ -2,7 +2,7 @@ name: Deploy Lambda Function and Infrastructure
 
 on:
   push:
-    branches: [ serverless ]
+    branches: [ new-serverless ]
 
 jobs:
   deploy:
