@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_ROLE}
   environment:
-    DATABASE_URL: postgresql://postgres:postgres@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
+    DATABASE_URL: postgresql://postgres:postgres@my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
     # Add other environment variables as needed
 
 functions:
@@ -54,7 +54,7 @@ resources:
 
   Outputs:
     DatabaseURL:
-      Value: !Sub "postgresql://postgres:${MyPostgresRDS.Endpoint.Address}:5432/postgres"
+      Value: !Sub "postgresql://postgres:postgres@${MyPostgresRDS.Endpoint.Address}:5432/postgres"
       Export:
         Name: DatabaseURL-${self:provider.stage}
 custom:
