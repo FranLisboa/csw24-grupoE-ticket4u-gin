@@ -64,4 +64,31 @@ Para acessar o swagger, baster ir em URL/swagger/index.html
 
 ex: http://localhost:8080/swagger/index.html
 
+# Aplicar Migrations
+
+Depois de rodar:
+```
+    serverless deploy
+```
+
+E instalar serverless-offline:
+```
+    npm install serverless-offline --save-dev
+```
+
+Rodar:
+```
+    serverless info --verbose
+```
+Nos outputs terá a url da database gerada
+
+Depois, intalar o migrations para go, tendo go instalado:
+```
+    go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
+```
+
+Rodar migration na url gerada da database (substitua X pela url):
+```
+    migrate -database X -path ./src/infrastructure/database/migrations/ up
+```
  
