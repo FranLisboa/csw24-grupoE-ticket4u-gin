@@ -1,28 +1,3 @@
-org: franciscolisboa
-service: serverless
-
-plugins:
-  - serverless-offline
-
-provider:
-  name: aws
-  runtime: provided.al2023
-  stage: dev
-  region: us-east-1
-  iam:
-    role: ${env:AWS_ROLE}
-  environment:
-    DATABASE_URL: postgresql://postgres:postgres@my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
-    # Add other environment variables as needed
-
-functions:
-  tickets:
-    handler: bootstrap
-    events:
-      - httpApi:
-          method: any
-          path: /{proxy+}
-
 resources:
   Resources:
     # RDS Instance Configuration
@@ -57,7 +32,3 @@ resources:
       Value: !Sub "postgresql://postgres:postgres@${MyPostgresRDS.Endpoint.Address}:5432/postgres"
       Export:
         Name: DatabaseURL-${self:provider.stage}
-custom:
-  serverless-offline:
-    httpPort: 3000 # Local server port when using serverless-offline plugin
-    lambdaPort: 3002 # Lambda function local execution port

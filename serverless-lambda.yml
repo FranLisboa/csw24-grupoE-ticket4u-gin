@@ -1,0 +1,29 @@
+org: franciscolisboa
+service: serverless
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: provided.al2023
+  stage: dev
+  region: us-east-1
+  iam:
+    role: ${env:AWS_ROLE}
+  environment:
+    DATABASE_URL: !ImportValue DatabaseURL-${self:provider.stage}
+    # Add other environment variables as needed
+
+functions:
+  tickets:
+    handler: bootstrap
+    events:
+      - httpApi:
+          method: any
+          path: /{proxy+}
+
+custom:
+  serverless-offline:
+    httpPort: 3000 # Local server port when using serverless-offline plugin
+    lambdaPort: 3002 # Lambda function local execution port

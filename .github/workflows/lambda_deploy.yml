@@ -2,7 +2,7 @@ name: Deploy Lambda Function and Infrastructure
 
 on:
   push:
-    branches: [ new-serverless ]
+    branches: [ separate-serverless ]
 
 jobs:
   deploy:
@@ -43,19 +43,27 @@ jobs:
       - name: Install Serverless Offline
         run: serverless plugin install -n serverless-offline
 
-      - name: Serverless Deploy
+      - name: Serverless Deploy RDS
+        run: |
+          serverless deploy --config serverless-rds.yml
+
+      - name: Serverless Deploy Lambda
         env:
-          DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
-          AWS_ROLE: arn:aws:iam::948675409837:role/LabRole
+          AWS_ROLE: ${{ secrets.AWS_IAM_ROLE }}
         run: |
           echo "AWS_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
-          serverless deploy
+          serverless deploy --config serverless-lambda.yml
 
       - name: Install Migrate CLI (Go-based)
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
 
+         - name: Retrieve Database URL
+        id: get-db-url
+        run: |
+         DB_URL=$(aws cloudformation describe-stacks --stack-name rds-setup-dev --query "Stacks[0].Outputs[?OutputKey=='DatabaseURL'].OutputValue" --output text)
+          echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
+
       - name: Run Migrations
         run: |
-          migrate -database "postgresql://postgres:postgres@my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" -path ./src/infrastructure/database/migrations/ up
-          
+          migrate -database "$DATABASE_URL" -path ./src/infrastructure/database/migrations/ up
