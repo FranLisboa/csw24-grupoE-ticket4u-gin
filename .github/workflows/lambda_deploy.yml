@@ -51,10 +51,6 @@ jobs:
           echo "AWS_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
           serverless deploy
 
-      - name: Serverless stack
-        run: |
-          sls info -v
-
       - name: Get Database URL from Serverless Output
         id: get-db-url
         run: |
@@ -69,4 +65,3 @@ jobs:
       - name: Run Migrations
         run: |
           migrate -database $DATABASE_URL -path ./src/infrastructure/database/migrations/ up
-          

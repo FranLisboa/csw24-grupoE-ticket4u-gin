@@ -56,7 +56,7 @@ resources:
     DatabaseURL:
       Value: !Sub "postgresql://postgres:${MyPostgresRDS.Endpoint.Address}:5432/postgres"
       Export:
-        Name: DatabaseURL-${self:provider.stage}
+        Name: DatabaseURL
 
 custom:
   serverless-offline:
