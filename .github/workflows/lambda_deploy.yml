@@ -57,5 +57,5 @@ jobs:
 
       - name: Run Migrations
         run: |
-          migrate -database "postgresql://postgres:postgres@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" -path ./src/infrastructure/database/migrations/ up
+          migrate -database "postgresql://postgres:postgres@my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" -path ./src/infrastructure/database/migrations/ up
           
