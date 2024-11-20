@@ -55,9 +55,7 @@ jobs:
         id: get-db-url
         run: |
           DATABASE_URL=$(sls output get --name DatabaseURL)
-          
-          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
-
+        
       - name: Install Migrate CLI (Go-based)
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
