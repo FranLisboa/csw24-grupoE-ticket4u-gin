@@ -54,7 +54,7 @@ jobs:
       - name: Get Database URL from Serverless Output
         id: get-db-url
         run: |
-          DATABASE_URL=$(sls output get --name DatabaseURL)
+          DATABASE_URL=$(serverless output get --name DatabaseURL)
         
       - name: Install Migrate CLI (Go-based)
         run: |
