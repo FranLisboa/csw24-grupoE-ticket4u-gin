@@ -50,3 +50,12 @@ jobs:
         run: |
           echo "AWS_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
           serverless deploy
+
+      - name: Install Migrate CLI (Go-based)
+        run: |
+          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
+
+      - name: Run Migrations
+        run: |
+          migrate -database "postgresql://postgres:my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" -path ./src/infrastructure/database/migrations/ up
+          
