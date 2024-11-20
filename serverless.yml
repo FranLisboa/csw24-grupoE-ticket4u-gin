@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_ROLE}
   environment:
-    DATABASE_URL: ${cf:${self:service}-${self:provider.stage}.DatabaseURL}
+    DATABASE_URL: "postgresql://postgres:my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres"
     # Add other environment variables as needed
 
 functions:
@@ -52,11 +52,6 @@ resources:
             ToPort: '5432'
             CidrIp: 0.0.0.0/0 # This allows access from anywhere; restrict in production
 
-  Outputs:
-    DatabaseURL:
-      Value: !Sub "postgresql://postgres:${MyPostgresRDS.Endpoint.Address}:5432/postgres"
-      Export:
-        Name: DatabaseURL-${self:provider.stage}
 
 custom:
   serverless-offline:
