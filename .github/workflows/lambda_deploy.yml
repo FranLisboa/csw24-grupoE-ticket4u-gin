@@ -55,24 +55,6 @@ jobs:
         run: |
           go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.5.0
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Plan
-        run: terraform plan 
-
-      - name: Terraform Apply
-        run: terraform apply 
-
-      - name: Get Terraform Output
-        id: get-terraform-output
-        run: echo "DATABASE_URL=$(terraform output -raw database_url)" >> $GITHUB_ENV
-
       - name: Run Migrations
         run: |
-          migrate -database $DATABASE_URL -path ./src/infrastructure/database/migrations/ up
+          migrate -database "postgresql://postgres:my-postgres-db.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres" -path ./src/infrastructure/database/migrations/ up
