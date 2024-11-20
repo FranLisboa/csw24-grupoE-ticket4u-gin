@@ -50,3 +50,18 @@ jobs:
         run: |
           echo "AWS_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
           serverless deploy
+
+      - name: Get Database URL from Serverless Output
+        id: get-db-url
+        run: |
+          DATABASE_URL=$(sls output get --name DatabaseURL --stage dev)
+          
+          echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+
+      - name: Install Migrate CLI (Go-based)
+        run: |
+          go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
+
+      - name: Run Migrations
+        run: |
+          migrate -database $DATABASE_URL -path ./src/infrastructure/database/migrations/ up
