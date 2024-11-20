@@ -38,4 +38,4 @@ resources:
     DatabaseURL:
       Value: !Sub "postgresql://postgres:postgres@${MyPostgresRDS.Endpoint.Address}:5432/postgres"
       Export:
-        Name: DatabaseURL-${self:provider.stage}
+        Name: DatabaseURL2-${self:provider.stage}

@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_ROLE}
   environment:
-    DATABASE_URL: !ImportValue DatabaseURL-${self:provider.stage}
+    DATABASE_URL: !ImportValue DatabaseURL2-${self:provider.stage}
     # Add other environment variables as needed
 
 functions:
