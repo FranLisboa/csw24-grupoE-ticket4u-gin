@@ -1,4 +1,4 @@
-service: rds-setup
+service: rds-setup-2
 
 provider:
   name: aws

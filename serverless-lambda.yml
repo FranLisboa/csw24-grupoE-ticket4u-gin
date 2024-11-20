@@ -1,5 +1,5 @@
 org: franciscolisboa
-service: serverless
+service: serverless-2
 
 plugins:
   - serverless-offline
