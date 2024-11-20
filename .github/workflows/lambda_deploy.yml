@@ -41,7 +41,7 @@ jobs:
         run: npm -g install serverless@3
 
       - name: Install Serverless Offline
-        run: serverless plugin install -n serverless-offline
+        run: serverless plugin install -n serverless-offline --config serverless-lambda.yml
 
       - name: Serverless Deploy RDS
         run: |
