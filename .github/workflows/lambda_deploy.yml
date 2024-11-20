@@ -50,11 +50,6 @@ jobs:
         run: |
           echo "AWS_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
           serverless deploy
-
-      - name: Get Database URL from Serverless Output
-        id: get-db-url
-        run: |
-          DATABASE_URL=$(serverless output get --name DatabaseURL)
         
       - name: Install Migrate CLI (Go-based)
         run: |
