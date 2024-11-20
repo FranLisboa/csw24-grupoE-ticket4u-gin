@@ -54,7 +54,7 @@ jobs:
       - name: Get Database URL from Serverless Output
         id: get-db-url
         run: |
-          DATABASE_URL=$(sls output get --name DatabaseURL --stage dev)
+          DATABASE_URL=$(sls output get --name DatabaseURL)
           
           echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
 
