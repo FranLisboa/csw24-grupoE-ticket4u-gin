@@ -1,3 +1,10 @@
+service: rds-setup
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: dev
+
 resources:
   Resources:
     # RDS Instance Configuration
