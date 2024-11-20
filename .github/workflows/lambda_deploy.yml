@@ -48,5 +48,5 @@ jobs:
           DATABASE_URL: postgresql://postgres:xyV4YBeY8Qz2FuZ@postgres.cy3myhw5bsdp.us-east-1.rds.amazonaws.com:5432/postgres
           AWS_ROLE: arn:aws:iam::948675409837:role/LabRole
         run: |
-          echo "AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
+          echo "export AWS_IAM_ROLE=${{ secrets.AWS_IAM_ROLE }}" >> .env
           serverless deploy
