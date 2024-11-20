@@ -10,7 +10,7 @@ provider:
   stage: dev
   region: us-east-1
   iam:
-    role: ${env:AWS_IAM_ROLE}
+    role: ${env:AWS_ROLE}
   environment:
     DATABASE_URL: ${cf:${self:service}-${self:provider.stage}.DatabaseURL}
     # Add other environment variables as needed
