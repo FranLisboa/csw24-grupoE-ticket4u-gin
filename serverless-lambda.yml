@@ -13,6 +13,7 @@ provider:
     role: ${env:AWS_ROLE}
   environment:
     DATABASE_URL: !ImportValue DatabaseURL2-${self:provider.stage}
+    RUN_MODE: remote
     # Add other environment variables as needed
 
 functions:
