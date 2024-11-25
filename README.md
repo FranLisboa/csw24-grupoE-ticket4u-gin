@@ -37,7 +37,7 @@ Caso decida parar algum container, basta executar:
 docker compose stop
 ```
 
-# Como subir o terraform
+# Como subir o terraform (Utilizado para EC2)
 
 Adicionar suas credenciais em X
 
@@ -64,31 +64,76 @@ Para acessar o swagger, baster ir em URL/swagger/index.html
 
 ex: http://localhost:8080/swagger/index.html
 
-# Aplicar Migrations
+# Fazer deploy na AWS Lambda com banco de dados RDS
 
-Depois de rodar:
-```
-    serverless deploy
-```
+# Opção 1
+Rodar localmente o workflow do Github Actions com uma ferramenta como [Act](https://github.com/nektos/act)
 
-E instalar serverless-offline:
-```
-    npm install serverless-offline --save-dev
-```
+# Opção 2
 
-Rodar:
-```
-    serverless info --verbose
-```
-Nos outputs terá a url da database gerada
+Instalar [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-Depois, intalar o migrations para go, tendo go instalado:
-```
-    go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 
+Instalar [Node Runtime](https://nodejs.org)
+
+Instalar o framework serverless
+
 ```
 
-Rodar migration na url gerada da database (substitua X pela url):
+npm install -g serverless@3
 ```
-    migrate -database X -path ./src/infrastructure/database/migrations/ up
+
+Instalar o framework serverless-offline
+
 ```
- 
+
+serverless plugin install -n serverless-offline --config serverless-lambda.yml
+```
+
+Instalar Goose, uma biblioteca para fazer migrations
+
+```
+
+go install github.com/pressly/goose/v3/cmd/goose@latest
+```
+
+Configurar credenciais da AWS
+
+```
+
+export AWS_ACCESS_KEY_ID=your_aws_access_key_id
+export AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+export AWS_SESSION_TOKEN=your_aws_session_token
+export AWS_REGION=us-east-1
+export AWS_ROLE=your_aws_iam_role
+```
+
+Buildar o Projeto Go
+
+```
+
+cd src
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ../bootstrap
+cd ..
+```
+
+Inicialize módulos e dependencias Go
+```
+
+go mod init csw24-grupoE-ticket4u-gin
+go mod tidy
+```
+
+Gere um .zip do arquivo gerado. Se estiver em ambiente Linux:
+
+```
+
+zip -j function.zip bootstrap
+```
+
+Após isso, rode o script para fazer deploy. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
+
+```
+
+chmod +x deploy-aws
+./deploy-aws
+```
