@@ -95,11 +95,11 @@ go install github.com/pressly/goose/v3/cmd/goose@latest
 Configurar credenciais da AWS
 
 ```
-export AWS_ACCESS_KEY_ID=your_aws_access_key_id
-export AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-export AWS_SESSION_TOKEN=your_aws_session_token
+export AWS_ACCESS_KEY_ID=sua_aws_access_key_id
+export AWS_SECRET_ACCESS_KEY=sua_aws_secret_access_key
+export AWS_SESSION_TOKEN=sua_aws_session_token
 export AWS_REGION=us-east-1
-export AWS_ROLE=your_aws_iam_role
+export AWS_ROLE=sua_aws_iam_role
 ```
 
 Buildar o Projeto Go. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
@@ -121,3 +121,24 @@ Após isso, rode o script para fazer deploy. Se não estiver em ambiente Linux, 
 chmod +x deploy-aws
 ./deploy-aws
 ```
+
+Após finalizar o deploy, você pode consultar a URL do seu Api Gateway pelo portal web da AWS ou pela CLI
+Se deseja fazer pela CLI, utilize o comando:
+
+```
+aws configure
+```
+Colocando suas credenciais da AWS
+
+Se estiver utilizando contas que possuem session tokens, configure essa variável também com o seguinte comando:
+
+```
+aws configure set aws_session_token <seu_token>
+```
+
+Para pegar a URL, acesse as variáveis de Stack da sua Lambda
+```
+aws cloudformation describe-stacks --stack-name serverless-5-dev --query "Stacks[0].Outputs"  
+```
+
+E procure pelo conjunto chave-valor com chave 'HttpApiUrl', que será sua URL para acessar a aplicação
