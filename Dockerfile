@@ -3,7 +3,7 @@ FROM golang:1.22.7
 WORKDIR /app
 
 
-COPY .. .
+COPY /src .
 
 RUN go mod download
 

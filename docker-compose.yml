@@ -13,7 +13,9 @@ services:
       - RUN_MODE=local
       - DATABASE_URL=host=db port=5432 user=admin password=admin dbname=postgres sslmode=disable
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
     ports:
       - 8080:8080
     networks:
@@ -30,6 +32,12 @@ services:
       - 5432:5432
     networks:
       - db-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   adminer:
     image: adminer
