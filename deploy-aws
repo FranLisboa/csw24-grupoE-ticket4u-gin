@@ -8,7 +8,7 @@ serverless deploy --config serverless-lambda.yml
 
 # Retrieve database URL from CloudFormation stack outputs
 echo "Retrieving database URL..."
-DB_URL=$(aws cloudformation describe-stacks --stack-name rds-setup-2-dev --query "Stacks[0].Outputs[?OutputKey=='DatabaseURL'].OutputValue" --output text)
+DB_URL=$(aws cloudformation describe-stacks --stack-name rds-setup-4-dev --query "Stacks[0].Outputs[?OutputKey=='DatabaseURL'].OutputValue" --output text)
 export DATABASE_URL=${DB_URL}
 
 # Run database migrations using Goose

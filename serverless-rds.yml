@@ -1,4 +1,4 @@
-service: rds-setup-2
+service: rds-setup-4
 
 provider:
   name: aws
@@ -11,7 +11,7 @@ resources:
     MyPostgresRDS:
       Type: AWS::RDS::DBInstance
       Properties:
-        DBInstanceIdentifier: my-postgres-db
+        DBInstanceIdentifier: my-postgres-db-2
         DBInstanceClass: db.t3.micro
         Engine: postgres
         EngineVersion: 16.3
@@ -38,4 +38,4 @@ resources:
     DatabaseURL:
       Value: !Sub "postgresql://postgres:postgres@${MyPostgresRDS.Endpoint.Address}:5432/postgres"
       Export:
-        Name: DatabaseURL2-${self:provider.stage}
+        Name: DatabaseURL4-${self:provider.stage}

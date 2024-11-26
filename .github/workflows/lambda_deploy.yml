@@ -61,7 +61,7 @@ jobs:
       - name: Retrieve Database URL
         id: get-db-url
         run: |
-          DB_URL=$(aws cloudformation describe-stacks --stack-name rds-setup-2-dev --query "Stacks[0].Outputs[?OutputKey=='DatabaseURL'].OutputValue" --output text)
+          DB_URL=$(aws cloudformation describe-stacks --stack-name rds-setup-4-dev --query "Stacks[0].Outputs[?OutputKey=='DatabaseURL'].OutputValue" --output text)
           echo "DATABASE_URL=${DB_URL}" >> $GITHUB_ENV
 
       - name: Run Migrations

@@ -1,5 +1,5 @@
 org: franciscolisboa
-service: serverless-2
+service: serverless-5
 
 plugins:
   - serverless-offline
@@ -12,7 +12,7 @@ provider:
   iam:
     role: ${env:AWS_ROLE}
   environment:
-    DATABASE_URL: !ImportValue DatabaseURL2-${self:provider.stage}
+    DATABASE_URL: !ImportValue DatabaseURL4-${self:provider.stage}
     RUN_MODE: remote
     # Add other environment variables as needed
 
