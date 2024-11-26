@@ -18,21 +18,16 @@
 
 # Como executar localmente o programa
 
-Para executar o programa é necessário o uso de docker. 
+Para executar o programa localmente é necessário o uso de docker. 
 
-Primeiro, comece executando o banco de dados através de 
-
-```
-docker compose up db -d
-```
-
-Após isso, execute o seguinte programa para iniciar o app:
+Comando para executar: 
 
 ```
-docker compose up app -d
+docker compose up
 ```
 
 Caso decida parar algum container, basta executar:
+
 ```
 docker compose stop
 ```
@@ -68,6 +63,15 @@ ex: http://localhost:8080/swagger/index.html
 
 # Opção 1
 Rodar localmente o workflow do Github Actions com uma ferramenta como [Act](https://github.com/nektos/act)
+
+Configurando os secrets utilizados:
+
+```
+AWS_ACCESS_KEY_ID=sua_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=sua_aws_secret_access_key
+AWS_SESSION_TOKEN=sua_aws_session_token
+AWS_ROLE=sua_aws_iam_role
+```
 
 # Opção 2
 
@@ -128,7 +132,7 @@ Se deseja fazer pela CLI, utilize o comando:
 ```
 aws configure
 ```
-Colocando suas credenciais da AWS
+Colocando suas credenciais da AWS e a região us-east-1
 
 Se estiver utilizando contas que possuem session tokens, configure essa variável também com o seguinte comando:
 
@@ -137,6 +141,7 @@ aws configure set aws_session_token <seu_token>
 ```
 
 Para pegar a URL, acesse as variáveis de Stack da sua Lambda
+
 ```
 aws cloudformation describe-stacks --stack-name serverless-5-dev --query "Stacks[0].Outputs"  
 ```
