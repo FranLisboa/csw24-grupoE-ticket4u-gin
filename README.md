@@ -78,28 +78,23 @@ Instalar [Node Runtime](https://nodejs.org)
 Instalar o framework serverless
 
 ```
-
 npm install -g serverless@3
 ```
 
 Instalar o framework serverless-offline
 
 ```
-
 serverless plugin install -n serverless-offline --config serverless-lambda.yml
 ```
-
 Instalar Goose, uma biblioteca para fazer migrations
 
 ```
-
 go install github.com/pressly/goose/v3/cmd/goose@latest
 ```
 
 Configurar credenciais da AWS
 
 ```
-
 export AWS_ACCESS_KEY_ID=your_aws_access_key_id
 export AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
 export AWS_SESSION_TOKEN=your_aws_session_token
@@ -107,33 +102,22 @@ export AWS_REGION=us-east-1
 export AWS_ROLE=your_aws_iam_role
 ```
 
-Buildar o Projeto Go
+Buildar o Projeto Go. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
 
 ```
-
 cd src
 GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ../bootstrap
 cd ..
 ```
 
-Inicialize módulos e dependencias Go
-```
-
-go mod init csw24-grupoE-ticket4u-gin
-go mod tidy
-```
-
 Gere um .zip do arquivo gerado. Se estiver em ambiente Linux:
 
 ```
-
 zip -j function.zip bootstrap
 ```
-
 Após isso, rode o script para fazer deploy. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
 
 ```
-
 chmod +x deploy-aws
 ./deploy-aws
 ```

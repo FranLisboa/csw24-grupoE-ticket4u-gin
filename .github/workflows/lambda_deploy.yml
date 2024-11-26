@@ -66,4 +66,4 @@ jobs:
 
       - name: Run Migrations
         run: |
-          goose -dir ./infrastructure/database/migrations postgres '$DATABASE_URL' up
+          goose -dir src/infrastructure/database/migrations postgres "$DATABASE_URL" up
