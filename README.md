@@ -147,3 +147,22 @@ aws cloudformation describe-stacks --stack-name serverless-5-dev --query "Stacks
 ```
 
 E procure pelo conjunto chave-valor com chave 'HttpApiUrl', que será sua URL para acessar a aplicação
+
+# Fazer deploy usando ECS
+
+Vá para o diretório infra
+
+```
+cd infra
+```
+
+Configure as chaves da AWS (se ainda não realizado)
+```
+aws configure
+```
+
+Rode comandos terraform
+```
+terraform init
+terraform apply
+```
