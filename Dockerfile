@@ -10,4 +10,4 @@ RUN go mod download
 
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 
-CMD ["bash", "-c", "goose -dir ./infrastructure/database/migrations postgres 'host=db port=5432 user=admin password=admin dbname=postgres sslmode=disable' up && go run main.go"]
+CMD ["bash", "-c", "go run main.go"]

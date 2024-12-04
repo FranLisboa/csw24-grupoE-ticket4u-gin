@@ -32,6 +32,11 @@ Caso decida parar algum container, basta executar:
 docker compose stop
 ```
 
+Rode as migrations
+```
+goose -dir ./infrastructure/database/migrations postgres 'host=db port=5432 user=admin password=admin dbname=postgres sslmode=disable' up
+```
+
 # Como subir o terraform (Utilizado para EC2)
 
 Adicionar suas credenciais em X
@@ -150,19 +155,29 @@ E procure pelo conjunto chave-valor com chave 'HttpApiUrl', que será sua URL pa
 
 # Fazer deploy usando ECS
 
-Vá para o diretório infra
-
+Instalar o framework serverless
 ```
-cd infra
+npm install -g serverless@3
+```
+
+Instalar o framework serverless-offline
+```
+serverless plugin install -n serverless-offline --config serverless-lambda.yml
+```
+
+Instalar Goose, uma biblioteca para fazer migrations
+```
+go install github.com/pressly/goose/v3/cmd/goose@latest
 ```
 
 Configure as chaves da AWS (se ainda não realizado)
 ```
 aws configure
+aws configure set aws_session_token <seu_token>
 ```
 
-Rode comandos terraform
+Após isso, rode o script para fazer deploy da ECS e do RDS. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
 ```
-terraform init
-terraform apply
+chmod +x deploy-rds-ecs
+./deploy-rds-ecs
 ```
