@@ -97,7 +97,7 @@ resource "aws_ecs_task_definition" "task_definition" {
         logDriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.ecs_log_group.name
-          awslogs-region        = "us-east-1"  # Adjust the region as needed
+          awslogs-region        = "us-east-1"  
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -107,7 +107,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
   name              = "/ecs/csw24-grupo-e-ticket4u-gin"
-  retention_in_days = 7  # Adjust the retention period as needed
+  retention_in_days = 7 
 }
 
 variable "DATABASE_URL" {
