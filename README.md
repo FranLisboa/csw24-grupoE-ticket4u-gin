@@ -127,8 +127,8 @@ zip -j function.zip bootstrap
 Após isso, rode o script para fazer deploy. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
 
 ```
-chmod +x deploy-aws
-./deploy-aws
+chmod +x deploy-aws.sh
+./deploy-aws.sh
 ```
 
 Após finalizar o deploy, você pode consultar a URL do seu Api Gateway pelo portal web da AWS ou pela CLI
@@ -160,11 +160,6 @@ Instalar o framework serverless
 npm install -g serverless@3
 ```
 
-Instalar o framework serverless-offline
-```
-serverless plugin install -n serverless-offline --config serverless-lambda.yml
-```
-
 Instalar Goose, uma biblioteca para fazer migrations
 ```
 go install github.com/pressly/goose/v3/cmd/goose@latest
@@ -174,10 +169,32 @@ Configure as chaves da AWS (se ainda não realizado)
 ```
 aws configure
 aws configure set aws_session_token <seu_token>
+export AWS_ROLE=sua_aws_iam_role
 ```
 
 Após isso, rode o script para fazer deploy da ECS e do RDS. Se não estiver em ambiente Linux, rode o arquvio em um terminal Git Bash
 ```
-chmod +x deploy-rds-ecs
-./deploy-rds-ecs
+chmod +x deploy-rds-ecs.sh
+./deploy-rds-ecs.sh
+```
+
+Para saber o IP público da task do ECS olhar no console da AWS, ou pegar por linha de comando
+Listar tasks do ECS:
+```
+aws ecs list-tasks --cluster csw24-grupo-e-ticket4u-gin-ecs-2
+```
+
+Pegar o ARN da task para ver seus detalhes
+```
+aws ecs describe-tasks --cluster csw24-grupo-e-ticket4u-gin-ecs-2 --tasks <task-arn>
+```
+
+Dentro de 'attachments' e depois dentro de 'details', pegar o valor do atributo 'networkInterfaceId'
+```
+aws ec2 describe-network-interfaces --network-interface-ids <networkInterfaceId>
+```
+
+Após isso procurar pelo ip público e usar como url base para a aplicação
+```
+http://<ip_publico>:8080/
 ```

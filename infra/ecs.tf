@@ -70,8 +70,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
-  task_role_arn = "arn:aws:iam::948675409837:role/LabRole" 
-  execution_role_arn = "arn:aws:iam::948675409837:role/LabRole" 
+  task_role_arn = var.AWS_ROLE 
+  execution_role_arn = var.AWS_ROLE 
 
   container_definitions = jsonencode([
     {
@@ -111,5 +111,9 @@ resource "aws_cloudwatch_log_group" "ecs_log_group" {
 }
 
 variable "DATABASE_URL" {
+  type = string
+}
+
+variable "AWS_ROLE" {
   type = string
 }

@@ -13,4 +13,4 @@ cd infra
 
 terraform init
 
-terraform apply -var="DATABASE_URL=$DATABASE_URL"
+terraform apply -var="DATABASE_URL=$DATABASE_URL" -var="AWS_ROLE=$AWS_ROLE"J
